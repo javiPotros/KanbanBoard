@@ -3,22 +3,105 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import temp_dominio.Tarea;
 
 public class Board extends javax.swing.JFrame {
 
     private List<Tarea> listaPorHacer;
     private List<Tarea> listaEnProgreso;
-    private List<Tarea> listaEnRealizado;
-    
+    private List<Tarea> listaRealizado;
+
     public Board() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-        
+
         this.listaPorHacer = new ArrayList<>();
         this.listaEnProgreso = new ArrayList<>();
-        this.listaEnRealizado = new ArrayList<>();
+        this.listaRealizado = new ArrayList<>();
+
+        llenarTablaPorHacer();
+        llenarTablaEnProgreso();
+        llenarTablaRealizado();
+    }
+
+    private void llenarTablaPorHacer() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaPorHacer.getModel();
+        modeloTabla.setRowCount(0);
+        listaPorHacer.forEach(tarea -> {
+            Object[] fila = new Object[2];
+            fila[0] = tarea.getNombre();
+            fila[1] = tarea.getUsuario();
+            modeloTabla.addRow(fila);
+        });
+    }
+
+    private void llenarTablaEnProgreso() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaEnProgreso.getModel();
+        modeloTabla.setRowCount(0);
+        listaEnProgreso.forEach(tarea -> {
+            Object[] fila = new Object[2];
+            fila[0] = tarea.getNombre();
+            fila[1] = tarea.getUsuario();
+            modeloTabla.addRow(fila);
+        });
+    }
+
+    private void llenarTablaRealizado() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaRealizado.getModel();
+        modeloTabla.setRowCount(0);
+        listaRealizado.forEach(tarea -> {
+            Object[] fila = new Object[2];
+            fila[0] = tarea.getNombre();
+            fila[1] = tarea.getUsuario();
+            modeloTabla.addRow(fila);
+        });
+    }
+
+    public void eliminarPorHacer() {
+        int row = tablaPorHacer.getSelectedRow();
+        String tarea = tablaPorHacer.getModel().getValueAt(row, 0).toString();
+        String usuario = tablaPorHacer.getModel().getValueAt(row, 1).toString();
+        int tareaEliminar = 0;
+        for (int i = 0; i < listaPorHacer.size(); i++) {
+            Tarea tareaLista = listaPorHacer.get(i);
+            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
+                tareaEliminar = i;
+            }
+        }
+        listaPorHacer.remove(tareaEliminar);
+        llenarTablaPorHacer();
+    }
+
+    public void eliminarEnProgreso() {
+        int row = tablaEnProgreso.getSelectedRow();
+        String tarea = tablaEnProgreso.getModel().getValueAt(row, 0).toString();
+        String usuario = tablaEnProgreso.getModel().getValueAt(row, 1).toString();
+        int tareaEliminar = 0;
+        for (int i = 0; i < listaEnProgreso.size(); i++) {
+            Tarea tareaLista = listaEnProgreso.get(i);
+            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
+                tareaEliminar = i;
+            }
+        }
+        listaEnProgreso.remove(tareaEliminar);
+        llenarTablaEnProgreso();
+    }
+    
+    public void eliminarRealizado() {
+        int row = tablaRealizado.getSelectedRow();
+        String tarea = tablaRealizado.getModel().getValueAt(row, 0).toString();
+        String usuario = tablaRealizado.getModel().getValueAt(row, 1).toString();
+        int tareaEliminar = 0;
+        for (int i = 0; i < listaRealizado.size(); i++) {
+            Tarea tareaLista = listaRealizado.get(i);
+            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
+                tareaEliminar = i;
+            }
+        }
+        listaRealizado.remove(tareaEliminar);
+        llenarTablaRealizado();
     }
 
     @SuppressWarnings("unchecked")
@@ -55,23 +138,28 @@ public class Board extends javax.swing.JFrame {
 
         btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnPorHacerToProgreso.setText("→");
-        btnPorHacerToProgreso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPorHacerToProgresoActionPerformed(evt);
-            }
-        });
 
         btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToPorHacer.setText("←");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         btnCrearPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearPorHacer.setText("+");
+        btnCrearPorHacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearPorHacerActionPerformed(evt);
+            }
+        });
 
         btnEliminarPorHacer.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarPorHacer.setText("-");
         btnEliminarPorHacer.setPreferredSize(new java.awt.Dimension(28, 28));
+        btnEliminarPorHacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarPorHacerActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Por hacer");
@@ -137,14 +225,24 @@ public class Board extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         btnCrearEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearEnProgreso.setText("+");
+        btnCrearEnProgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearEnProgresoActionPerformed(evt);
+            }
+        });
 
         btnEliminarEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarEnProgreso.setText("-");
         btnEliminarEnProgreso.setPreferredSize(new java.awt.Dimension(28, 28));
+        btnEliminarEnProgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarEnProgresoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("En progreso");
@@ -179,20 +277,22 @@ public class Board extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(btnCrearEnProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminarEnProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(jLabel2)))
-                .addContainerGap(143, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(143, 143, 143)
+                                .addComponent(btnCrearEnProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEliminarEnProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(153, 153, 153)
+                                .addComponent(jLabel2)))
+                        .addGap(0, 137, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,18 +304,28 @@ public class Board extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         btnCrearRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearRealizado.setText("+");
+        btnCrearRealizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearRealizadoActionPerformed(evt);
+            }
+        });
 
         btnEliminarRealizado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarRealizado.setText("-");
         btnEliminarRealizado.setPreferredSize(new java.awt.Dimension(28, 28));
+        btnEliminarRealizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarRealizadoActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Realizado");
@@ -276,7 +386,7 @@ public class Board extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -285,11 +395,6 @@ public class Board extends javax.swing.JFrame {
 
         btnProgresoToRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToRealizado.setText("→");
-        btnProgresoToRealizado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProgresoToRealizadoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -314,41 +419,62 @@ public class Board extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPorHacerToProgreso)
-                .addGap(18, 18, 18)
-                .addComponent(btnProgresoToPorHacer)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnPorHacerToProgreso)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnProgresoToPorHacer)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 310, Short.MAX_VALUE)
                         .addComponent(btnProgresoToRealizado)
                         .addGap(18, 18, 18)
                         .addComponent(btnRealizadoToProgreso)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 325, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPorHacerToProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPorHacerToProgresoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPorHacerToProgresoActionPerformed
+    private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true);
+        Tarea tarea = tareaDlg.showDialog();
+        listaPorHacer.add(tarea);
+        llenarTablaPorHacer();
+    }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
-    private void btnProgresoToRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgresoToRealizadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnProgresoToRealizadoActionPerformed
+    private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true);
+        Tarea tarea = tareaDlg.showDialog();
+        listaEnProgreso.add(tarea);
+        llenarTablaEnProgreso();
+    }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
+
+    private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true);
+        Tarea tarea = tareaDlg.showDialog();
+        listaRealizado.add(tarea);
+        llenarTablaRealizado();
+    }//GEN-LAST:event_btnCrearRealizadoActionPerformed
+
+    private void btnEliminarPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPorHacerActionPerformed
+        eliminarPorHacer();
+    }//GEN-LAST:event_btnEliminarPorHacerActionPerformed
+
+    private void btnEliminarEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEnProgresoActionPerformed
+        eliminarEnProgreso();
+    }//GEN-LAST:event_btnEliminarEnProgresoActionPerformed
+
+    private void btnEliminarRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRealizadoActionPerformed
+        eliminarRealizado();
+    }//GEN-LAST:event_btnEliminarRealizadoActionPerformed
 
     /**
      * @param args the command line arguments
