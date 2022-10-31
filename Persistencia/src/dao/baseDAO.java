@@ -1,4 +1,4 @@
-package src;
+package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -9,7 +9,7 @@ import javax.persistence.PersistenceException;
 public abstract class baseDAO<T> {
     
     protected EntityManager getEntityManager() throws PersistenceException{
-              EntityManagerFactory managerFactory =Persistence.createEntityManagerFactory("Kanban");
+              EntityManagerFactory managerFactory =Persistence.createEntityManagerFactory("kanbanJPA");
               EntityManager entityManager = managerFactory.createEntityManager();
               return entityManager;
           }
