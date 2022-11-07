@@ -1,29 +1,32 @@
 package dao;
 
+import interfaces.baseDAO;
 import entidades.Tablero;
+import java.awt.HeadlessException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 public class TableroDAO extends baseDAO<Tablero>{
 
 	@Override
-	public void agregar(Tablero entidad) {
+	public void agregar(Tablero usuario) {
 		try {
 			EntityManager entityManager = this.getEntityManager();
 			entityManager.getTransaction().begin();
-			entityManager.persist(entidad);
+			entityManager.persist(usuario);
 			entityManager.getTransaction().commit();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "Información",
 					JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
+		} catch (HeadlessException | PersistenceException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 
 	@Override
-	public void actualizar(Tablero entidad) {
+	public void actualizar(Tablero usuario) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
@@ -38,7 +41,7 @@ public class TableroDAO extends baseDAO<Tablero>{
 			}
 			entityManager.getTransaction().commit();
 			JOptionPane.showMessageDialog(null, "Se ha elimino correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
+		} catch (HeadlessException | PersistenceException e) {
 			JOptionPane.showMessageDialog(null, "Error: Este tablero no se pudo eliminar", "Información", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
@@ -49,20 +52,20 @@ public class TableroDAO extends baseDAO<Tablero>{
 			EntityManager entityManager = this.getEntityManager();
 			Tablero tablero = entityManager.find(Tablero.class, idEntidad);
 			return tablero;
-		} catch (Exception e) {
+		} catch (PersistenceException e) {
 			System.err.println(e.getMessage());
 			return null;
 		}
 	}
 
 	@Override
-	public List<Tablero> consultarTodo() {
+	public List<Tablero> consultarTodos() {
 		try {
 			EntityManager entityManager = this.getEntityManager();
 			TypedQuery query = entityManager.createQuery("SELECT t FROM Tablero t", Tablero.class);
 			List<Tablero> listaTablero=  query.getResultList();
 			return listaTablero;
-		} catch (Exception e) {
+		} catch (PersistenceException e) {
 			System.err.println(e.getMessage());
 			return null;
 		}

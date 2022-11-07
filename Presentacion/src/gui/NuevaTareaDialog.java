@@ -1,20 +1,33 @@
 package gui;
 
-import temp_dominio.Tarea;
+import entidades.Tarea;
+import entidades.Usuario;
+import interfaces.INegocios;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 
 public class NuevaTareaDialog extends javax.swing.JDialog {
 
     private Tarea tarea;
+    private List<Usuario> usuarios;
 
-    public NuevaTareaDialog(java.awt.Frame parent, boolean modal) {
+    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios) {
         super(parent, modal);
         initComponents();
         this.tarea = new Tarea();
+        usuarios = negocios.consultarUsuarios();
+        llenarCmbBoxUsuarios();
     }
 
     public Tarea showDialog() {
         setVisible(true);
         return tarea;
+    }
+
+    private void llenarCmbBoxUsuarios() {
+        if (usuarios != null) {
+            cmbBoxUsuarios.setModel(new DefaultComboBoxModel(usuarios.toArray()));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -24,9 +37,9 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         lblTarea = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         txtTarea = new javax.swing.JTextField();
-        txtUsuario = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         btnAceptar1 = new javax.swing.JButton();
+        cmbBoxUsuarios = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,15 +68,13 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblUsuario)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTarea)
-                        .addGap(29, 29, 29)
-                        .addComponent(txtTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(lblUsuario)
+                    .addComponent(lblTarea))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                    .addComponent(cmbBoxUsuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAceptar1)
@@ -74,15 +85,15 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblTarea)
                     .addComponent(txtTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsuario)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                    .addComponent(cmbBoxUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnAceptar1))
@@ -99,8 +110,9 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
-        tarea.setNombre(this.txtTarea.getText());
-        tarea.setUsuario(this.txtUsuario.getText());
+
+        tarea.setTitulo(this.txtTarea.getText());
+        tarea.setUsuario(new Usuario((String) this.cmbBoxUsuarios.getSelectedItem()));
         setVisible(false);
         dispose();
     }//GEN-LAST:event_btnAceptar1ActionPerformed
@@ -109,9 +121,9 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar1;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> cmbBoxUsuarios;
     private javax.swing.JLabel lblTarea;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtTarea;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,16 +1,19 @@
 package gui;
 
+import entidades.Tarea;
+import implementaciones.Negocios;
+import interfaces.INegocios;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import temp_dominio.Tarea;
 
 public class Board extends javax.swing.JFrame {
 
     private List<Tarea> listaPorHacer;
     private List<Tarea> listaEnProgreso;
     private List<Tarea> listaRealizado;
+    private INegocios negocios;
 
     public Board() {
         initComponents();
@@ -20,6 +23,7 @@ public class Board extends javax.swing.JFrame {
         this.listaPorHacer = new ArrayList<>();
         this.listaEnProgreso = new ArrayList<>();
         this.listaRealizado = new ArrayList<>();
+        this.negocios = new Negocios();
 
         llenarTablaPorHacer();
         llenarTablaEnProgreso();
@@ -31,9 +35,11 @@ public class Board extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         listaPorHacer.forEach(tarea -> {
             Object[] fila = new Object[2];
-            fila[0] = tarea.getNombre();
-            fila[1] = tarea.getUsuario();
-            modeloTabla.addRow(fila);
+            if (tarea != null) {
+                fila[0] = tarea.getTitulo();
+                fila[1] = tarea.getUsuario().getNombre();
+                modeloTabla.addRow(fila);
+            }
         });
     }
 
@@ -42,8 +48,8 @@ public class Board extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         listaEnProgreso.forEach(tarea -> {
             Object[] fila = new Object[2];
-            fila[0] = tarea.getNombre();
-            fila[1] = tarea.getUsuario();
+            fila[0] = tarea.getTitulo();
+            fila[1] = tarea.getUsuario().getNombre();
             modeloTabla.addRow(fila);
         });
     }
@@ -53,8 +59,8 @@ public class Board extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         listaRealizado.forEach(tarea -> {
             Object[] fila = new Object[2];
-            fila[0] = tarea.getNombre();
-            fila[1] = tarea.getUsuario();
+            fila[0] = tarea.getTitulo();
+            fila[1] = tarea.getUsuario().getNombre();
             modeloTabla.addRow(fila);
         });
     }
@@ -66,7 +72,7 @@ public class Board extends javax.swing.JFrame {
         int tareaEliminar = 0;
         for (int i = 0; i < listaPorHacer.size(); i++) {
             Tarea tareaLista = listaPorHacer.get(i);
-            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
+            if (tareaLista.getTitulo().equalsIgnoreCase(tarea) && tareaLista.getUsuario().getNombre().equalsIgnoreCase(usuario)) {
                 tareaEliminar = i;
             }
         }
@@ -74,36 +80,35 @@ public class Board extends javax.swing.JFrame {
         llenarTablaPorHacer();
     }
 
-    public void eliminarEnProgreso() {
-        int row = tablaEnProgreso.getSelectedRow();
-        String tarea = tablaEnProgreso.getModel().getValueAt(row, 0).toString();
-        String usuario = tablaEnProgreso.getModel().getValueAt(row, 1).toString();
-        int tareaEliminar = 0;
-        for (int i = 0; i < listaEnProgreso.size(); i++) {
-            Tarea tareaLista = listaEnProgreso.get(i);
-            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
-                tareaEliminar = i;
-            }
-        }
-        listaEnProgreso.remove(tareaEliminar);
-        llenarTablaEnProgreso();
-    }
-    
-    public void eliminarRealizado() {
-        int row = tablaRealizado.getSelectedRow();
-        String tarea = tablaRealizado.getModel().getValueAt(row, 0).toString();
-        String usuario = tablaRealizado.getModel().getValueAt(row, 1).toString();
-        int tareaEliminar = 0;
-        for (int i = 0; i < listaRealizado.size(); i++) {
-            Tarea tareaLista = listaRealizado.get(i);
-            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
-                tareaEliminar = i;
-            }
-        }
-        listaRealizado.remove(tareaEliminar);
-        llenarTablaRealizado();
-    }
-
+//    public void eliminarEnProgreso() {
+//        int row = tablaEnProgreso.getSelectedRow();
+//        String tarea = tablaEnProgreso.getModel().getValueAt(row, 0).toString();
+//        String usuario = tablaEnProgreso.getModel().getValueAt(row, 1).toString();
+//        int tareaEliminar = 0;
+//        for (int i = 0; i < listaEnProgreso.size(); i++) {
+//            Tarea tareaLista = listaEnProgreso.get(i);
+//            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
+//                tareaEliminar = i;
+//            }
+//        }
+//        listaEnProgreso.remove(tareaEliminar);
+//        llenarTablaEnProgreso();
+//    }
+//    
+//    public void eliminarRealizado() {
+//        int row = tablaRealizado.getSelectedRow();
+//        String tarea = tablaRealizado.getModel().getValueAt(row, 0).toString();
+//        String usuario = tablaRealizado.getModel().getValueAt(row, 1).toString();
+//        int tareaEliminar = 0;
+//        for (int i = 0; i < listaRealizado.size(); i++) {
+//            Tarea tareaLista = listaRealizado.get(i);
+//            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
+//                tareaEliminar = i;
+//            }
+//        }
+//        listaRealizado.remove(tareaEliminar);
+//        llenarTablaRealizado();
+//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -444,21 +449,21 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios);
         Tarea tarea = tareaDlg.showDialog();
         listaPorHacer.add(tarea);
         llenarTablaPorHacer();
     }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
     private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios);
         Tarea tarea = tareaDlg.showDialog();
         listaEnProgreso.add(tarea);
         llenarTablaEnProgreso();
     }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
 
     private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios);
         Tarea tarea = tareaDlg.showDialog();
         listaRealizado.add(tarea);
         llenarTablaRealizado();
@@ -469,11 +474,11 @@ public class Board extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarPorHacerActionPerformed
 
     private void btnEliminarEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEnProgresoActionPerformed
-        eliminarEnProgreso();
+//        eliminarEnProgreso();
     }//GEN-LAST:event_btnEliminarEnProgresoActionPerformed
 
     private void btnEliminarRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRealizadoActionPerformed
-        eliminarRealizado();
+//        eliminarRealizado();
     }//GEN-LAST:event_btnEliminarRealizadoActionPerformed
 
     /**
