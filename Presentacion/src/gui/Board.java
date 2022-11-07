@@ -138,7 +138,6 @@ public class Board extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kanban Board");
-        setPreferredSize(new java.awt.Dimension(1490, 720));
         setResizable(false);
 
         btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -147,7 +146,7 @@ public class Board extends javax.swing.JFrame {
         btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToPorHacer.setText("←");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnCrearPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearPorHacer.setText("+");
@@ -230,7 +229,7 @@ public class Board extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnCrearEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearEnProgreso.setText("+");
@@ -313,7 +312,7 @@ public class Board extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnCrearRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearRealizado.setText("+");
