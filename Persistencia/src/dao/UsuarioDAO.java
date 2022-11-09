@@ -4,6 +4,7 @@ import interfaces.baseDAO;
 import entidades.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
@@ -74,6 +75,19 @@ public class UsuarioDAO extends baseDAO<Usuario> {
             System.err.println(e.getMessage());
             return null;
         }
+    }
+
+    public Usuario consultarPorCorreo(String correo) {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correo =:correo", Usuario.class);
+            query.setParameter("correo", correo);
+            Usuario usuario = (Usuario) query.getSingleResult();
+            return usuario;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }       
     }
 
     @Override

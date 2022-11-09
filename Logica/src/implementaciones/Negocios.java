@@ -23,6 +23,16 @@ public class Negocios implements INegocios {
     }
 
     @Override
+    public Usuario consultarUsuario(Long id) {
+        return ctrlUsuarios.consultar(id);
+    }
+    
+    @Override
+    public Usuario consultarUsuarioCorreo(String correo) {
+        return ctrlUsuarios.consultarPorCorreo(correo);
+    }
+
+    @Override
     public List<Usuario> consultarUsuarios() {
         return ctrlUsuarios.consultarTodos();
     }
