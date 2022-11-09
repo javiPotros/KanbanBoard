@@ -12,8 +12,8 @@ public class pruebas {
 //		TableroDAO taDao = new TableroDAO();
 //		TareaDAO tDao = new TareaDAO();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		Usuario user = new Usuario("Rodolfo", "lider", "rodolfo@gmail.com", "1234");
-		uDao.agregar(user);
+//		Usuario user = new Usuario("Rodolfo", "lider", "rodolfo@gmail.com", "1234");
+//		uDao.agregar(user);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		Usuario user = uDao.consultar(1);
 //		Usuario userNew = new Usuario();
@@ -42,14 +42,14 @@ public class pruebas {
 //		
 //		tDao.actualizar(tareaNew);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		Usuario user = uDao.consultar(2);
-//		System.out.println("ID: "+user.getId()+"\n"+
-//					"Nombre: "+ user.getNombre()+"\n");
-//		for (Tarea tarea : user.getTarea()) {
-//			System.out.println("ID: "+tarea.getId()+"\n"+
-//						"Titulo: "+tarea.getTitulo()+"\n"+
-//						"Descripcion: "+tarea.getDescripcion());
-//		}
+		Usuario user = uDao.consultar(1);
+		System.out.println("ID: "+user.getId()+"\n"+
+					"Nombre: "+ user.getNombre()+"\n");
+		for (Tarea tarea : user.getTareas()) {
+			System.out.println("ID: "+tarea.getId()+"\n"+
+						"Titulo: "+tarea.getTitulo()+"\n"+
+						"Descripcion: "+tarea.getDescripcion());
+		}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		Tablero tablero = taDao.consultar(2);
 //		System.out.println("ID: "+tablero.getId()+"\n"+

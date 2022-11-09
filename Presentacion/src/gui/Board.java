@@ -80,12 +80,12 @@ public class Board extends javax.swing.JFrame {
 
     public void eliminarPorHacer() {
         int row = tablaPorHacer.getSelectedRow();
-        String tarea = tablaPorHacer.getModel().getValueAt(row, 0).toString();
-        String usuario = tablaPorHacer.getModel().getValueAt(row, 1).toString();
+        Tarea tarea = listaPorHacer.get(row);
         int tareaEliminar = 0;
         for (int i = 0; i < listaPorHacer.size(); i++) {
             Tarea tareaLista = listaPorHacer.get(i);
-            if (tareaLista.getTitulo().equalsIgnoreCase(tarea) && tareaLista.getUsuario().getNombre().equalsIgnoreCase(usuario)) {
+            if (tareaLista.getId() == tarea.getId()) {
+		negocios.eliminarTarea(tarea.getId());
                 tareaEliminar = i;
             }
         }
@@ -333,7 +333,7 @@ public class Board extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -415,7 +415,7 @@ public class Board extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -461,7 +461,7 @@ public class Board extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 310, Short.MAX_VALUE)
+                        .addGap(0, 311, Short.MAX_VALUE)
                         .addComponent(btnProgresoToRealizado)
                         .addGap(18, 18, 18)
                         .addComponent(btnRealizadoToProgreso)
