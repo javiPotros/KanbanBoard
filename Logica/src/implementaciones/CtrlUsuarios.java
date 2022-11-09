@@ -4,6 +4,7 @@ import dao.DAOFactory;
 import dao.UsuarioDAO;
 import entidades.Usuario;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CtrlUsuarios {
 
@@ -14,8 +15,16 @@ public class CtrlUsuarios {
     }
 
     public Usuario agregar(Usuario usuario) throws Exception {
-            validarCampos(usuario);
-            return usuarioDAO.agregar(usuario);
+        validarCampos(usuario);
+        return usuarioDAO.agregar(usuario);
+    }
+
+    public Usuario consultar(Long id) {
+        return usuarioDAO.consultar(id);
+    }
+
+    public Usuario consultarPorCorreo(String correo) {
+        return usuarioDAO.consultarPorCorreo(correo);
     }
 
     public List<Usuario> consultarTodos() {
@@ -30,7 +39,7 @@ public class CtrlUsuarios {
     }
 
     private void validarNombre(String nombre) throws Exception {
-        if (nombre.equalsIgnoreCase("")) {
+        if (nombre.trim().isEmpty()) {
             throw new Exception("Introduzca un nombre");
         } else if (nombre.length() > 100) {
             throw new Exception("El nombre debe tener máximo 100 caracteres");
@@ -44,15 +53,24 @@ public class CtrlUsuarios {
     }
 
     private void validarCorreo(String correo) throws Exception {
-        if (correo.equalsIgnoreCase("")) {
-            throw new Exception("Introduzca un nombre");
+        Pattern patron = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        boolean emailValido = patron.matcher(correo).matches();
+        Usuario usuario = consultarPorCorreo(correo);
+
+        if (correo.trim().isEmpty()) {
+            throw new Exception("Introduzca un correo");
         } else if (correo.length() > 100) {
-            throw new Exception("El nombre debe tener máximo 100 caracteres");
+            throw new Exception("El correo debe tener máximo 100 caracteres");
+        } else if (!emailValido) {
+            throw new Exception("Introduzca un correo válido");
+        } else if (usuario != null) {
+            throw new Exception("El correo introducido ya esta asociado a una cuenta");
         }
     }
+    
 
     private void validarContrasenha(String contrasenha) throws Exception {
-        if (contrasenha.equalsIgnoreCase("")) {
+        if (contrasenha.trim().isEmpty()) {
             throw new Exception("Introduzca un nombre");
         } else if (contrasenha.length() > 100) {
             throw new Exception("El nombre debe tener máximo 100 caracteres");

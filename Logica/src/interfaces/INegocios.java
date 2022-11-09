@@ -7,6 +7,10 @@ public interface INegocios {
 
     public Usuario agregarUsuario(Usuario usuario) throws Exception;
   
+    public Usuario consultarUsuario(Long id);
+    
+    public Usuario consultarUsuarioCorreo(String correo);
+    
     public List<Usuario> consultarUsuarios();
 
     public void agregarTarea(Tarea tarea) throws Exception;
