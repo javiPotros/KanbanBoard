@@ -112,7 +112,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
 
         tarea.setTitulo(this.txtTarea.getText());
-        tarea.setUsuario(new Usuario((String) this.cmbBoxUsuarios.getSelectedItem()));
+        //tarea.setUsuario(new Usuario((String) this.cmbBoxUsuarios.getSelectedItem()));
         setVisible(false);
         dispose();
     }//GEN-LAST:event_btnAceptar1ActionPerformed

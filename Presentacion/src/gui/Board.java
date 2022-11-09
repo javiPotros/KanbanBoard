@@ -1,6 +1,7 @@
 package gui;
 
 import entidades.Tarea;
+import entidades.Usuario;
 import implementaciones.Negocios;
 import interfaces.INegocios;
 import java.util.ArrayList;
@@ -121,6 +122,7 @@ public class Board extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPorHacer = new javax.swing.JTable();
+        btnRegistrarUsuario = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnCrearEnProgreso = new javax.swing.JButton();
         btnEliminarEnProgreso = new javax.swing.JButton();
@@ -193,6 +195,13 @@ public class Board extends javax.swing.JFrame {
             tablaPorHacer.getColumnModel().getColumn(1).setResizable(false);
         }
 
+        btnRegistrarUsuario.setText("Usuario");
+        btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarUsuarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -205,7 +214,9 @@ public class Board extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(143, 143, 143)
+                                .addGap(17, 17, 17)
+                                .addComponent(btnRegistrarUsuario)
+                                .addGap(51, 51, 51)
                                 .addComponent(btnCrearPorHacer, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnEliminarPorHacer, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -220,7 +231,9 @@ public class Board extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCrearPorHacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnCrearPorHacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRegistrarUsuario))
                     .addComponent(btnEliminarPorHacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
@@ -405,7 +418,7 @@ public class Board extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
+                .addContainerGap(151, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,7 +432,7 @@ public class Board extends javax.swing.JFrame {
                     .addComponent(btnProgresoToRealizado))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,6 +493,12 @@ public class Board extends javax.swing.JFrame {
 //        eliminarRealizado();
     }//GEN-LAST:event_btnEliminarRealizadoActionPerformed
 
+    private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
+        NuevoUsuarioDialog nuevoUsuarioDlg = new NuevoUsuarioDialog(this, true);
+        Usuario usuario = nuevoUsuarioDlg.showDialog();
+        negocios.agregarUsuario(usuario);
+    }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -526,6 +545,7 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JButton btnProgresoToPorHacer;
     private javax.swing.JButton btnProgresoToRealizado;
     private javax.swing.JButton btnRealizadoToProgreso;
+    private javax.swing.JButton btnRegistrarUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
