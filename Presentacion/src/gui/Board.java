@@ -6,7 +6,10 @@ import implementaciones.Negocios;
 import interfaces.INegocios;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Board extends javax.swing.JFrame {
@@ -80,6 +83,7 @@ public class Board extends javax.swing.JFrame {
         listaPorHacer.remove(tareaEliminar);
         llenarTablaPorHacer();
     }
+
 
 //    public void eliminarEnProgreso() {
 //        int row = tablaEnProgreso.getSelectedRow();
@@ -494,9 +498,7 @@ public class Board extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarRealizadoActionPerformed
 
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
-        NuevoUsuarioDialog nuevoUsuarioDlg = new NuevoUsuarioDialog(this, true);
-        Usuario usuario = nuevoUsuarioDlg.showDialog();
-        negocios.agregarUsuario(usuario);
+        NuevoUsuarioDialog nuevoUsuarioDlg = new NuevoUsuarioDialog(this, true, negocios);
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
     /**

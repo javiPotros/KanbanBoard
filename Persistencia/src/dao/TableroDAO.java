@@ -12,30 +12,32 @@ import javax.swing.JOptionPane;
 public class TableroDAO extends baseDAO<Tablero>{
 
 	@Override
-	public void agregar(Tablero usuario) {
+	public Tablero agregar(Tablero tablero) {
 		try {
 			EntityManager entityManager = this.getEntityManager();
 			entityManager.getTransaction().begin();
-			entityManager.persist(usuario);
+			entityManager.persist(tablero);
 			entityManager.getTransaction().commit();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "Información",
 					JOptionPane.INFORMATION_MESSAGE);
+                        return tablero;
 		} catch (HeadlessException | PersistenceException e) {
 			System.err.println(e.getMessage());
+                        return null;
 		}
 	}
 
 	@Override
-	public void actualizar(Tablero usuario) {
+	public Tablero actualizar(Tablero tablero) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public void eliminar(long idEntidad) {
+	public void eliminar(long id) {
 		try {
 			EntityManager entityManager = this.getEntityManager();
 			entityManager.getTransaction().begin();
-			Tablero tablero = entityManager.find(Tablero.class, idEntidad);
+			Tablero tablero = entityManager.find(Tablero.class, id);
 			if (tablero != null) {
 				entityManager.remove(tablero);
 			}

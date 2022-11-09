@@ -5,15 +5,15 @@ public class DAOFactory {
     public DAOFactory() {
     }
 
-    public UsuarioDAO crearUsuarioDAO() {
+    public static UsuarioDAO crearUsuarioDAO() {
         return new UsuarioDAO();
     }
 
-    public TareaDAO crearTareaDAO() {
+    public static TareaDAO crearTareaDAO() {
         return new TareaDAO();
     }
 
-    public TableroDAO crearTableroDAO() {
+    public static TableroDAO crearTableroDAO() {
         return new TableroDAO();
     }
 

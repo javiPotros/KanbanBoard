@@ -1,6 +1,5 @@
 package implementaciones;
 
-import dao.DAOFactory;
 import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
@@ -8,23 +7,21 @@ import java.util.List;
 
 public class Negocios implements INegocios {
 
-//    DAOFactory daoFactory;
     CtrlUsuarios ctrlUsuarios;
     CtrlTareas ctrlTareas;
     //CtrlTableros ctrlTableros;
 
     public Negocios() {
-//        daoFactory = new DAOFactory();
         ctrlUsuarios = new CtrlUsuarios();
-//        ctrlTareas = new CtrlTareas();
-        //ctrlTableros = new CtrlTableros();
+        ctrlTareas = new CtrlTareas();
+//        ctrlTableros = new CtrlTableros();
     }
 
     @Override
-    public void agregarUsuario(Usuario usuario) {
-        ctrlUsuarios.agregar(usuario);
+    public Usuario agregarUsuario(Usuario usuario) throws Exception {
+        return ctrlUsuarios.agregar(usuario);
     }
-    
+
     @Override
     public List<Usuario> consultarUsuarios() {
         return ctrlUsuarios.consultarTodos();

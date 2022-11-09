@@ -14,8 +14,8 @@ public abstract class baseDAO<T> {
               return entityManager;
           }
           
-          public abstract void agregar(T entidad);
-          public abstract void actualizar(T entidad);
+          public abstract T agregar(T entidad);
+          public abstract T actualizar(T entidad);
           public abstract void eliminar(long idEntidad);
           public abstract T consultar(long idEntidad);
           public abstract List<T> consultarTodos();

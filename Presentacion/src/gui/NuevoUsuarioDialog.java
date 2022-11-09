@@ -1,20 +1,30 @@
 package gui;
 
 import entidades.Usuario;
+import interfaces.INegocios;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class NuevoUsuarioDialog extends javax.swing.JDialog {
 
+    INegocios negocios;
     private Usuario usuario;
 
-    public NuevoUsuarioDialog(java.awt.Frame parent, boolean modal) {
+    public NuevoUsuarioDialog(java.awt.Frame parent, boolean modal, INegocios negocios) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Nuevo usuario");
+        this.negocios = negocios;
         this.usuario = new Usuario();
+        setVisible(true);
     }
 
-    public Usuario showDialog() {
-        setVisible(true);
-        return usuario;
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        cmbBoxRoles.setSelectedIndex(0);
+        txtCorreo.setText("");
+        txtContrasenha.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -29,9 +39,9 @@ public class NuevoUsuarioDialog extends javax.swing.JDialog {
         cmbBoxRoles = new javax.swing.JComboBox<>();
         lblCorreo = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
-        txtContrasenha = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnLimpiar = new javax.swing.JButton();
+        txtContrasenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,27 +88,28 @@ public class NuevoUsuarioDialog extends javax.swing.JDialog {
                     .addComponent(lblUsuario)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAceptar)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnLimpiar)
-                        .addGap(29, 29, 29)
-                        .addComponent(btnCancelar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtContrasenha)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                        .addComponent(cmbBoxRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCorreo)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAceptar)
+                            .addGap(27, 27, 27)
+                            .addComponent(btnLimpiar)
+                            .addGap(29, 29, 29)
+                            .addComponent(btnCancelar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                            .addComponent(cmbBoxRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCorreo)))
+                    .addComponent(txtContrasenha))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblTarea)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarea))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsuario)
@@ -109,8 +120,8 @@ public class NuevoUsuarioDialog extends javax.swing.JDialog {
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtContrasenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(txtContrasenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -134,12 +145,20 @@ public class NuevoUsuarioDialog extends javax.swing.JDialog {
         usuario.setRol((String) cmbBoxRoles.getSelectedItem());
         usuario.setCorreo(txtCorreo.getText());
         usuario.setContrasenha(txtContrasenha.getText());
-        setVisible(false);
+        try {
+            negocios.agregarUsuario(usuario);
+            JOptionPane.showMessageDialog(null, "Se ha guardado el usuario correctamente",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
         dispose();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
+        this.limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
 
@@ -152,7 +171,7 @@ public class NuevoUsuarioDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblCorreo;
     private javax.swing.JLabel lblTarea;
     private javax.swing.JLabel lblUsuario;
-    private javax.swing.JTextField txtContrasenha;
+    private javax.swing.JPasswordField txtContrasenha;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

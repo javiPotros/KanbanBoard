@@ -6,12 +6,10 @@ import entidades.Tarea;
 
 public class CtrlTareas {
 
-    DAOFactory daoFactory;
     TareaDAO tareaDAO;
 
-    public CtrlTareas(DAOFactory daoFactory) {
-        this.daoFactory = daoFactory;
-        tareaDAO = daoFactory.crearTareaDAO();
+    public CtrlTareas() {
+        tareaDAO = DAOFactory.crearTareaDAO();
     }
     
     public void agregar(Tarea tarea) {

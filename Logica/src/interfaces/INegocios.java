@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface INegocios {
 
-    public void agregarUsuario(Usuario usuario);
+    public Usuario agregarUsuario(Usuario usuario)  throws Exception;
   
     public List<Usuario> consultarUsuarios();
 

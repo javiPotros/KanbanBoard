@@ -2,31 +2,29 @@ package dao;
 
 import interfaces.baseDAO;
 import entidades.Usuario;
-import java.awt.HeadlessException;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 public class UsuarioDAO extends baseDAO<Usuario> {
 
     @Override
-    public void agregar(Usuario usuario) {
+    public Usuario agregar(Usuario usuario) {
         try {
             EntityManager entityManager = this.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(usuario);
             entityManager.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            return usuario;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return null;
         }
     }
 
     @Override
-    public void actualizar(Usuario usuario) {
+    public Usuario actualizar(Usuario usuario) {
         try {
             if (usuario.getId() == null || usuario == null) {
                 throw new IllegalArgumentException("El usuario no es valido");
@@ -42,8 +40,11 @@ public class UsuarioDAO extends baseDAO<Usuario> {
             entityManager.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente", "Información",
                     JOptionPane.INFORMATION_MESSAGE);
+            return usuario;
         } catch (Exception e) {
+            //REVISAR
             System.err.println(e.getMessage());
+            return null;
         }
     }
 
