@@ -124,7 +124,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombre + this.rol;
+        return this.nombre + " - " + this.rol;
     }
 
 }

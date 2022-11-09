@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Board extends javax.swing.JFrame {
-    
+
     private Integer POR_HACER = 0;
     private Integer EN_PROGRESO = 1;
     private Integer REALIZADO = 2;
@@ -33,10 +33,12 @@ public class Board extends javax.swing.JFrame {
         this.listaEnProgreso = new ArrayList<>();
         this.listaRealizado = new ArrayList<>();
         this.negocios = new Negocios();
-        
         this.listaPorHacer = negocios.consultarTareasPorHacer();
-        
-        llenarTablaPorHacer();
+
+        if (listaPorHacer != null) {
+            llenarTablaPorHacer();
+        }
+
         llenarTablaEnProgreso();
         llenarTablaRealizado();
     }
@@ -90,7 +92,6 @@ public class Board extends javax.swing.JFrame {
         listaPorHacer.remove(tareaEliminar);
         llenarTablaPorHacer();
     }
-
 
 //    public void eliminarEnProgreso() {
 //        int row = tablaEnProgreso.getSelectedRow();

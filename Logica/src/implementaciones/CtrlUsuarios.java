@@ -71,9 +71,9 @@ public class CtrlUsuarios {
 
     private void validarContrasenha(String contrasenha) throws Exception {
         if (contrasenha.trim().isEmpty()) {
-            throw new Exception("Introduzca un nombre");
+            throw new Exception("Introduzca una contraseña");
         } else if (contrasenha.length() > 100) {
-            throw new Exception("El nombre debe tener máximo 100 caracteres");
+            throw new Exception("La contraseña debe tener máximo 100 caracteres");
         }
     }
 
