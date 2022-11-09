@@ -1,7 +1,7 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,103 +15,115 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="tarea")
-public class Tarea implements Serializable{
-	
-	@Id
-	@Column(name = "id_tarea")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name="titulo",nullable=false,length=100)
-	private String titulo;
-	
-	@Column(name="descripcion",nullable=true,length=300)
-	private String descripcion;
-	
-	@Column(name="fechalim",nullable=false)
-	@Temporal(TemporalType.DATE)
-	private Calendar fechaLim;
-	
-	@ManyToOne
-	@JoinColumn(name="id_usuario",nullable=false)
-	private Usuario usuario;
-	
-	@ManyToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name="id_tablero",nullable=false)
-	private Tablero tablero;
+@Table(name = "tarea")
+public class Tarea implements Serializable {
 
-	public Tarea() {
-	}
+    @Id
+    @Column(name = "id_tarea")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Tarea(String titulo, String descripcion, Calendar fechaLim) {
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.fechaLim = fechaLim;
-	}
+    @Column(name = "titulo", nullable = false, length = 100)
+    private String titulo;
 
-	public Tarea(String titulo, String descripcion, Calendar fechaLim, Usuario usuario, Tablero tablero) {
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.fechaLim = fechaLim;
-		this.usuario = usuario;
-		this.tablero = tablero;
-	}
+    @Column(name = "descripcion", nullable = true, length = 300)
+    private String descripcion;
 
-	public Tarea(Long id, String titulo, String descripcion, Calendar fechaLim, Usuario usuario, Tablero tablero) {
-		this.id = id;
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.fechaLim = fechaLim;
-		this.usuario = usuario;
-		this.tablero = tablero;
-	}
+    @Column(name = "estado", nullable = false)
+    private Integer estado;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "fechalim", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaLim;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
-	public String getTitulo() {
-		return titulo;
-	}
+//    @ManyToOne(cascade = CascadeType.REFRESH)
+//    @JoinColumn(name = "id_tablero", nullable = false)
+//    private Tablero tablero;
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+    public Tarea() {
+    }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+    public Tarea(String titulo, String descripcion, Date fechaLim, Integer estado) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaLim = fechaLim;
+        this.estado = estado;
+    }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    public Tarea(String titulo, String descripcion, Date fechaLim, Usuario usuario, Integer estado) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaLim = fechaLim;
+        this.usuario = usuario;
+        this.estado = estado;
+    }
 
-	public Calendar getFechaLim() {
-		return fechaLim;
-	}
+    public Tarea(Long id, String titulo, String descripcion, Date fechaLim, Usuario usuario, Integer estado) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaLim = fechaLim;
+        this.usuario = usuario;
+        this.estado = estado;
+    }
 
-	public void setFechaLim(Calendar fechaLim) {
-		this.fechaLim = fechaLim;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public String getTitulo() {
+        return titulo;
+    }
 
-	public Tablero getTablero() {
-		return tablero;
-	}
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-	public void setTablero(Tablero tablero) {
-		this.tablero = tablero;
-	}
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Date getFechaLim() {
+        return fechaLim;
+    }
+
+    public void setFechaLim(Date fechaLim) {
+        this.fechaLim = fechaLim;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+//    public Tablero getTablero() {
+//        return tablero;
+//    }
+//
+//    public void setTablero(Tablero tablero) {
+//        this.tablero = tablero;
+//    }
+
+    public Integer getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Integer estado) {
+        this.estado = estado;
+    }
 }

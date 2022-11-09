@@ -2,8 +2,6 @@ package gui;
 
 import entidades.Usuario;
 import interfaces.INegocios;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class NuevoUsuarioDialog extends javax.swing.JDialog {

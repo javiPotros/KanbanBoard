@@ -30,7 +30,7 @@ public class CtrlUsuarios {
     }
 
     private void validarNombre(String nombre) throws Exception {
-        if (nombre.isBlank()) {
+        if (nombre.equalsIgnoreCase("")) {
             throw new Exception("Introduzca un nombre");
         } else if (nombre.length() > 100) {
             throw new Exception("El nombre debe tener máximo 100 caracteres");
@@ -44,7 +44,7 @@ public class CtrlUsuarios {
     }
 
     private void validarCorreo(String correo) throws Exception {
-        if (correo.isBlank()) {
+        if (correo.equalsIgnoreCase("")) {
             throw new Exception("Introduzca un nombre");
         } else if (correo.length() > 100) {
             throw new Exception("El nombre debe tener máximo 100 caracteres");
@@ -52,7 +52,7 @@ public class CtrlUsuarios {
     }
 
     private void validarContrasenha(String contrasenha) throws Exception {
-        if (contrasenha.isBlank()) {
+        if (contrasenha.equalsIgnoreCase("")) {
             throw new Exception("Introduzca un nombre");
         } else if (contrasenha.length() > 100) {
             throw new Exception("El nombre debe tener máximo 100 caracteres");

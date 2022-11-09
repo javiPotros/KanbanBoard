@@ -6,6 +6,7 @@ import java.awt.HeadlessException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
@@ -89,6 +90,18 @@ public class TareaDAO extends baseDAO<Tarea> {
         try {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t", Tarea.class);
+            List<Tarea> listaTarea = query.getResultList();
+            return listaTarea;
+        } catch (PersistenceException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Tarea> consultarPorHacer() {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 0", Tarea.class);
             List<Tarea> listaTarea = query.getResultList();
             return listaTarea;
         } catch (PersistenceException e) {

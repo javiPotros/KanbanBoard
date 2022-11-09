@@ -5,6 +5,7 @@ import entidades.Usuario;
 import implementaciones.Negocios;
 import interfaces.INegocios;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Board extends javax.swing.JFrame {
+    
+    private Integer POR_HACER = 0;
+    private Integer EN_PROGRESO = 1;
+    private Integer REALIZADO = 2;
 
     private List<Tarea> listaPorHacer;
     private List<Tarea> listaEnProgreso;
@@ -28,7 +33,9 @@ public class Board extends javax.swing.JFrame {
         this.listaEnProgreso = new ArrayList<>();
         this.listaRealizado = new ArrayList<>();
         this.negocios = new Negocios();
-
+        
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
+        
         llenarTablaPorHacer();
         llenarTablaEnProgreso();
         llenarTablaRealizado();
@@ -465,23 +472,18 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios);
-        Tarea tarea = tareaDlg.showDialog();
-        listaPorHacer.add(tarea);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER);
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
         llenarTablaPorHacer();
     }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
     private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios);
-        Tarea tarea = tareaDlg.showDialog();
-        listaEnProgreso.add(tarea);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO);
         llenarTablaEnProgreso();
     }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
 
     private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios);
-        Tarea tarea = tareaDlg.showDialog();
-        listaRealizado.add(tarea);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO);
         llenarTablaRealizado();
     }//GEN-LAST:event_btnCrearRealizadoActionPerformed
 
