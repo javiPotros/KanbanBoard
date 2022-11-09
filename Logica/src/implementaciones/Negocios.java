@@ -28,7 +28,7 @@ public class Negocios implements INegocios {
     }
 
     @Override
-    public void agregarTarea(Tarea tarea) {
+    public void agregarTarea(Tarea tarea) throws Exception {
         ctrlTareas.agregar(tarea);
     }
 

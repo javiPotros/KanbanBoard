@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface INegocios {
 
-    public Usuario agregarUsuario(Usuario usuario)  throws Exception;
+    public Usuario agregarUsuario(Usuario usuario) throws Exception;
   
     public List<Usuario> consultarUsuarios();
 
-    public void agregarTarea(Tarea tarea);
+    public void agregarTarea(Tarea tarea) throws Exception;
 
     public void actualizarTarea(Tarea tarea);
 
