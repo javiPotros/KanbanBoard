@@ -12,9 +12,4 @@ public class DAOFactory {
     public static TareaDAO crearTareaDAO() {
         return new TareaDAO();
     }
-
-    public static TableroDAO crearTableroDAO() {
-        return new TableroDAO();
-    }
-
 }

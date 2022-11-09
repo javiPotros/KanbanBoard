@@ -3,6 +3,7 @@ package implementaciones;
 import dao.DAOFactory;
 import dao.TareaDAO;
 import entidades.Tarea;
+import java.util.List;
 
 public class CtrlTareas {
 
@@ -27,5 +28,8 @@ public class CtrlTareas {
     public void consultar(Long id) {
         tareaDAO.consultar(id);
     }
-
+    
+    public List<Tarea> consultarPorHacer() {
+        return tareaDAO.consultarPorHacer();
+    }
 }

@@ -1,4 +1,4 @@
-package interfaces;
+  package interfaces;
 
 import entidades.*;
 import java.util.List;
@@ -20,4 +20,6 @@ public interface INegocios {
     public void eliminarTarea(Long id);
 
     public void consultarTarea(Long id);
+    
+    public List<Tarea> consultarTareasPorHacer();
 }

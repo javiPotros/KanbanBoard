@@ -57,4 +57,9 @@ public class Negocios implements INegocios {
         ctrlTareas.consultar(id);
     }
 
+    @Override
+    public List<Tarea> consultarTareasPorHacer() {
+        return ctrlTareas.consultarPorHacer();
+    }
+
 }
