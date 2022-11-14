@@ -6,6 +6,10 @@ import java.util.List;
 public interface INegocios {
 
     public Usuario agregarUsuario(Usuario usuario) throws Exception;
+	
+	public void actualizarUsuario(Usuario usuario);
+	
+	public void eliminarUsuario(Long id);
   
     public Usuario consultarUsuario(Long id);
     

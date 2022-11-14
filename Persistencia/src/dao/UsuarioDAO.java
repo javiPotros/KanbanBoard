@@ -37,6 +37,9 @@ public class UsuarioDAO extends baseDAO<Usuario> {
                 throw new Exception("El usuario no existe");
             }
             usuarioViejo.setNombre(usuario.getNombre());
+	   usuarioViejo.setRol(usuario.getRol());
+	   usuarioViejo.setCorreo(usuario.getCorreo());
+	   usuarioViejo.setContrasenha(usuario.getContrasenha());
             entityManager.persist(usuarioViejo);
             entityManager.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente", "Información",

@@ -18,7 +18,14 @@ public class CtrlUsuarios {
         validarCampos(usuario);
         return usuarioDAO.agregar(usuario);
     }
-
+	public void eliminar(long id){
+		usuarioDAO.eliminar(id);
+	}
+	
+	public void actualizas(Usuario usuario){
+		usuarioDAO.actualizar(usuario);
+	}
+	
     public Usuario consultar(Long id) {
         return usuarioDAO.consultar(id);
     }
