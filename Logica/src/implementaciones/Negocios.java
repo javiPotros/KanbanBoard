@@ -43,7 +43,7 @@ public class Negocios implements INegocios {
     }
 
     @Override
-    public void actualizarTarea(Tarea tarea) {
+    public void actualizarTarea(Tarea tarea) throws Exception {
         ctrlTareas.actualizar(tarea);
     }
 

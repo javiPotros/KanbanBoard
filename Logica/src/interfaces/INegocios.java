@@ -19,7 +19,7 @@ public interface INegocios {
 
     public void agregarTarea(Tarea tarea) throws Exception;
 
-    public void actualizarTarea(Tarea tarea);
+    public void actualizarTarea(Tarea tarea) throws Exception;
 
     public void eliminarTarea(Long id);
 
