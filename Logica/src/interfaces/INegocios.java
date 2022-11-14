@@ -19,7 +19,7 @@ public interface INegocios {
 
     public void eliminarTarea(Long id);
 
-    public void consultarTarea(Long id);
+    public Tarea consultarTarea(Long id);
     
     public List<Tarea> consultarTareasPorHacer();
 }

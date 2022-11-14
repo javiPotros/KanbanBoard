@@ -4,13 +4,17 @@ import entidades.Tarea;
 import entidades.Usuario;
 import implementaciones.Negocios;
 import interfaces.INegocios;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Board extends javax.swing.JFrame {
@@ -41,9 +45,20 @@ public class Board extends javax.swing.JFrame {
 
         llenarTablaEnProgreso();
         llenarTablaRealizado();
+        agregarListener();
+    }
+
+    private void verTarea(MouseEvent me) {
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
+        JTable target = (JTable) me.getSource();
+        int row = target.getSelectedRow();
+        Tarea tarea = listaPorHacer.get(row);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea);
+        llenarTablaPorHacer();
     }
 
     private void llenarTablaPorHacer() {
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaPorHacer.getModel();
         modeloTabla.setRowCount(0);
         listaPorHacer.forEach(tarea -> {
@@ -84,13 +99,23 @@ public class Board extends javax.swing.JFrame {
         int tareaEliminar = 0;
         for (int i = 0; i < listaPorHacer.size(); i++) {
             Tarea tareaLista = listaPorHacer.get(i);
-            if (tareaLista.getId() == tarea.getId()) {
-		negocios.eliminarTarea(tarea.getId());
+            if (Objects.equals(tareaLista.getId(), tarea.getId())) {
+                negocios.eliminarTarea(tarea.getId());
                 tareaEliminar = i;
             }
         }
         listaPorHacer.remove(tareaEliminar);
         llenarTablaPorHacer();
+    }
+
+    private void agregarListener() {
+        tablaPorHacer.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+                if (me.getClickCount() == 2) {     // to detect doble click events
+                    verTarea(me);
+                }
+            }
+        });
     }
 
 //    public void eliminarEnProgreso() {
@@ -154,16 +179,16 @@ public class Board extends javax.swing.JFrame {
         setTitle("Kanban Board");
         setResizable(false);
 
-        btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnPorHacerToProgreso.setText("→");
+        btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToPorHacer.setText("←");
+        btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnCrearPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearPorHacer.setText("+");
+        btnCrearPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearPorHacer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearPorHacerActionPerformed(evt);
@@ -179,8 +204,8 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Por hacer");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tablaPorHacer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -256,16 +281,16 @@ public class Board extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnCrearEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearEnProgreso.setText("+");
+        btnCrearEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearEnProgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearEnProgresoActionPerformed(evt);
             }
         });
 
-        btnEliminarEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarEnProgreso.setText("-");
+        btnEliminarEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarEnProgreso.setPreferredSize(new java.awt.Dimension(28, 28));
         btnEliminarEnProgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,8 +298,8 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("En progreso");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tablaEnProgreso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -339,16 +364,16 @@ public class Board extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnCrearRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearRealizado.setText("+");
+        btnCrearRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearRealizado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearRealizadoActionPerformed(evt);
             }
         });
 
-        btnEliminarRealizado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarRealizado.setText("-");
+        btnEliminarRealizado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarRealizado.setPreferredSize(new java.awt.Dimension(28, 28));
         btnEliminarRealizado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,8 +381,8 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Realizado");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tablaRealizado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -419,11 +444,11 @@ public class Board extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnRealizadoToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnRealizadoToProgreso.setText("←");
+        btnRealizadoToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        btnProgresoToRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToRealizado.setText("→");
+        btnProgresoToRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -473,18 +498,20 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null);
         this.listaPorHacer = negocios.consultarTareasPorHacer();
         llenarTablaPorHacer();
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
     private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null);
         llenarTablaEnProgreso();
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
 
     private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null);
         llenarTablaRealizado();
     }//GEN-LAST:event_btnCrearRealizadoActionPerformed
 

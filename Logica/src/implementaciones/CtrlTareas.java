@@ -19,7 +19,8 @@ public class CtrlTareas {
         tareaDAO.agregar(tarea);
     }
 
-    public void actualizar(Tarea tarea) {
+    public void actualizar(Tarea tarea) throws Exception {
+        validarCampos(tarea);
         tareaDAO.actualizar(tarea);
     }
 
@@ -27,8 +28,8 @@ public class CtrlTareas {
         tareaDAO.eliminar(id);
     }
 
-    public void consultar(Long id) {
-        tareaDAO.consultar(id);
+    public Tarea consultar(Long id) {
+        return tareaDAO.consultar(id);
     }
 
     public List<Tarea> consultarPorHacer() {
@@ -58,7 +59,10 @@ public class CtrlTareas {
     }
     
     private void validarFecha(Date fecha) throws Exception {
-        if (fecha.before(new Date())) {
+        if(fecha == null){
+            throw new Exception("Introduzca una fecha");
+        }
+        else if (fecha.before(new Date())) {
             throw new Exception("La fecha debe de ser posterior a la fecha actual");
         }
     }

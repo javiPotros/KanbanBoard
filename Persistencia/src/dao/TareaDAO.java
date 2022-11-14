@@ -6,7 +6,6 @@ import java.awt.HeadlessException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
@@ -19,8 +18,6 @@ public class TareaDAO extends baseDAO<Tarea> {
             entityManager.getTransaction().begin();
             entityManager.persist(tarea);
             entityManager.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
             return tarea;
         } catch (HeadlessException | PersistenceException e) {
             System.err.println(e.getMessage());
@@ -48,8 +45,6 @@ public class TareaDAO extends baseDAO<Tarea> {
 
             entityManager.persist(tareaVieja);
             entityManager.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente", "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
             return tarea;
         } catch (Exception e) {
             System.err.println(e.getMessage());

@@ -53,8 +53,8 @@ public class Negocios implements INegocios {
     }
 
     @Override
-    public void consultarTarea(Long id) {
-        ctrlTareas.consultar(id);
+    public Tarea consultarTarea(Long id) {
+        return ctrlTareas.consultar(id);
     }
 
     @Override
