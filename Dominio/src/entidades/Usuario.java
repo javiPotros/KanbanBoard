@@ -65,6 +65,15 @@ public class Usuario implements Serializable {
         this.tareas = tareas;
     }
 
+    public Usuario(Long id, String nombre, String rol, String correo, String contrasenha) {
+        this.id = id;
+        this.nombre = nombre;
+        this.rol = rol;
+        this.correo = correo;
+        this.contrasenha = contrasenha;
+        this.tareas = tareas;
+    }
+    
     public Usuario(Long id, String nombre, String rol, String correo, String contrasenha, List<Tarea> tareas) {
         this.id = id;
         this.nombre = nombre;

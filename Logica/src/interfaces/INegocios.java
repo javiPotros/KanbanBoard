@@ -9,7 +9,7 @@ public interface INegocios {
 	
 	public void actualizarUsuario(Usuario usuario);
 	
-	public void eliminarUsuario(Usuario usuario);
+	public void eliminarUsuario(Long id);
   
     public Usuario consultarUsuario(Long id);
     

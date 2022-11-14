@@ -149,29 +149,30 @@ public class Board extends javax.swing.JFrame {
         tablaRealizado = new javax.swing.JTable();
         btnRealizadoToProgreso = new javax.swing.JButton();
         btnProgresoToRealizado = new javax.swing.JButton();
+        btnAdminUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kanban Board");
         setResizable(false);
 
-        btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnPorHacerToProgreso.setText("→");
+        btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToPorHacer.setText("←");
+        btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnCrearPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearPorHacer.setText("+");
+        btnCrearPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearPorHacer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearPorHacerActionPerformed(evt);
             }
         });
 
-        btnEliminarPorHacer.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarPorHacer.setText("-");
+        btnEliminarPorHacer.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarPorHacer.setPreferredSize(new java.awt.Dimension(28, 28));
         btnEliminarPorHacer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,8 +180,8 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Por hacer");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tablaPorHacer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -256,16 +257,16 @@ public class Board extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnCrearEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearEnProgreso.setText("+");
+        btnCrearEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearEnProgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearEnProgresoActionPerformed(evt);
             }
         });
 
-        btnEliminarEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarEnProgreso.setText("-");
+        btnEliminarEnProgreso.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarEnProgreso.setPreferredSize(new java.awt.Dimension(28, 28));
         btnEliminarEnProgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,8 +274,8 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("En progreso");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tablaEnProgreso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -339,16 +340,16 @@ public class Board extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnCrearRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearRealizado.setText("+");
+        btnCrearRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCrearRealizado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearRealizadoActionPerformed(evt);
             }
         });
 
-        btnEliminarRealizado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarRealizado.setText("-");
+        btnEliminarRealizado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnEliminarRealizado.setPreferredSize(new java.awt.Dimension(28, 28));
         btnEliminarRealizado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,8 +357,8 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Realizado");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tablaRealizado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -419,18 +420,27 @@ public class Board extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnRealizadoToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnRealizadoToProgreso.setText("←");
+        btnRealizadoToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        btnProgresoToRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToRealizado.setText("→");
+        btnProgresoToRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        btnAdminUsuario.setText("Administrar Usuario");
+        btnAdminUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(btnAdminUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -444,13 +454,16 @@ public class Board extends javax.swing.JFrame {
                     .addComponent(btnProgresoToRealizado))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addGap(151, 151, 151))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdminUsuario)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnPorHacerToProgreso)
@@ -504,6 +517,10 @@ public class Board extends javax.swing.JFrame {
         NuevoUsuarioDialog nuevoUsuarioDlg = new NuevoUsuarioDialog(this, true, negocios);
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
+    private void btnAdminUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminUsuarioActionPerformed
+        AdministrarUsuarioDialog  adminUsuarioDlg = new AdministrarUsuarioDialog(this, true, negocios);
+    }//GEN-LAST:event_btnAdminUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -540,6 +557,7 @@ public class Board extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdminUsuario;
     private javax.swing.JButton btnCrearEnProgreso;
     private javax.swing.JButton btnCrearPorHacer;
     private javax.swing.JButton btnCrearRealizado;

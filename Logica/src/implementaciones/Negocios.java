@@ -68,8 +68,8 @@ public class Negocios implements INegocios {
 	}
 
 	@Override
-	public void eliminarUsuario(Usuario usuario) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	public void eliminarUsuario(Long id) {
+            ctrlUsuarios.eliminar(id);
 	}
 
 }
