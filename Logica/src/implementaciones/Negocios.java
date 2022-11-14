@@ -62,4 +62,14 @@ public class Negocios implements INegocios {
         return ctrlTareas.consultarPorHacer();
     }
 
+	@Override
+	public void actualizarUsuario(Usuario usuario) {
+		ctrlUsuarios.actualizas(usuario);
+	}
+
+	@Override
+	public void eliminarUsuario(Usuario usuario) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 }

@@ -20,7 +20,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         this.negocios = negocios;
         this.estado = estado;
         usuarios = negocios.consultarUsuarios();
-        llenarCmbBoxUsuarios();
+	llenarCmbBoxUsuarios();
         setVisible(true);
     }
 
