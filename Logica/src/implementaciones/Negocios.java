@@ -33,7 +33,7 @@ public class Negocios implements INegocios {
     }
     
     @Override
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) {
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha)throws Exception {
         return ctrlUsuarios.consultarPorCorreoYContrasenha(correo, contrasenha);
     }
 

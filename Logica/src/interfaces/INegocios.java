@@ -15,7 +15,7 @@ public interface INegocios {
     
     public Usuario consultarUsuarioCorreo(String correo);
     
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha);
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha)throws Exception;
     
     public List<Usuario> consultarUsuarios();
 
