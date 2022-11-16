@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdministrarUsuarioDialog extends javax.swing.JFrame {
 
-    INegocios negocios;
+    private INegocios negocios;
 
     public AdministrarUsuarioDialog(java.awt.Frame parent, boolean modal, INegocios negocios) {
         initComponents();

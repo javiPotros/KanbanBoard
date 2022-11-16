@@ -33,6 +33,10 @@ public class CtrlUsuarios {
     public Usuario consultarPorCorreo(String correo) {
         return usuarioDAO.consultarPorCorreo(correo);
     }
+    
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception {
+        return usuarioDAO.consultarPorCorreoYContrasenha(correo, contrasenha);
+    }
 
     public List<Usuario> consultarTodos() {
         return usuarioDAO.consultarTodos();
@@ -44,7 +48,7 @@ public class CtrlUsuarios {
         validarCorreo(usuario.getCorreo());
         validarContrasenha(usuario.getContrasenha());
     }
-
+    
     private void validarNombre(String nombre) throws Exception {
         if (nombre.trim().isEmpty()) {
             throw new Exception("Introduzca un nombre");

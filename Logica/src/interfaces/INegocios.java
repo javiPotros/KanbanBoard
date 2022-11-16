@@ -15,6 +15,8 @@ public interface INegocios {
     
     public Usuario consultarUsuarioCorreo(String correo);
     
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha);
+    
     public List<Usuario> consultarUsuarios();
 
     public void agregarTarea(Tarea tarea) throws Exception;

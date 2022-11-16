@@ -2,18 +2,13 @@ package gui;
 
 import entidades.Tarea;
 import entidades.Usuario;
-import implementaciones.Negocios;
 import interfaces.INegocios;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,18 +22,24 @@ public class Board extends javax.swing.JFrame {
     private List<Tarea> listaEnProgreso;
     private List<Tarea> listaRealizado;
     private INegocios negocios;
+    private Usuario usuario;
 
-    public Board() {
+    public Board(INegocios negocios, Usuario usuario) {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-
+        
         this.listaPorHacer = new ArrayList<>();
         this.listaEnProgreso = new ArrayList<>();
         this.listaRealizado = new ArrayList<>();
-        this.negocios = new Negocios();
+        this.negocios = negocios;
+        this.usuario = usuario;
         this.listaPorHacer = negocios.consultarTareasPorHacer();
 
+        if (!"admin".equals(usuario.getRol())) {
+            menu.setVisible(false);
+        }
+        
         if (listaPorHacer != null) {
             llenarTablaPorHacer();
         }

@@ -31,6 +31,11 @@ public class Negocios implements INegocios {
     public Usuario consultarUsuarioCorreo(String correo) {
         return ctrlUsuarios.consultarPorCorreo(correo);
     }
+    
+    @Override
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) {
+        return ctrlUsuarios.consultarPorCorreoYContrasenha(correo, contrasenha);
+    }
 
     @Override
     public List<Usuario> consultarUsuarios() {
@@ -71,5 +76,4 @@ public class Negocios implements INegocios {
 	public void eliminarUsuario(Long id) {
             ctrlUsuarios.eliminar(id);
 	}
-
 }

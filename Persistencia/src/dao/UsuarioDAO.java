@@ -92,6 +92,20 @@ public class UsuarioDAO extends baseDAO<Usuario> {
             return null;
         }       
     }
+    
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correo =:correo AND u.contrasenha =:contrasenha", Usuario.class);
+            query.setParameter("correo", correo);
+            query.setParameter("contrasenha", contrasenha);
+            Usuario usuario = (Usuario) query.getSingleResult();
+            return usuario;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }       
+    }
 
     @Override
     public List<Usuario> consultarTodos() {
