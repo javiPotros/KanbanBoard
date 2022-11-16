@@ -1,5 +1,6 @@
 package implementaciones;
 
+import entidades.Comentario;
 import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
@@ -9,11 +10,13 @@ public class Negocios implements INegocios {
 
     CtrlUsuarios ctrlUsuarios;
     CtrlTareas ctrlTareas;
+    CtrlComentario ctrlComentario;
     //CtrlTableros ctrlTableros;
 
     public Negocios() {
         ctrlUsuarios = new CtrlUsuarios();
         ctrlTareas = new CtrlTareas();
+        ctrlComentario = new CtrlComentario();
 //        ctrlTableros = new CtrlTableros();
     }
 
@@ -31,11 +34,7 @@ public class Negocios implements INegocios {
     public Usuario consultarUsuarioCorreo(String correo) {
         return ctrlUsuarios.consultarPorCorreo(correo);
     }
-    
-    @Override
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha)throws Exception {
-        return ctrlUsuarios.consultarPorCorreoYContrasenha(correo, contrasenha);
-    }
+ 
 
     @Override
     public List<Usuario> consultarUsuarios() {
@@ -76,4 +75,15 @@ public class Negocios implements INegocios {
 	public void eliminarUsuario(Long id) {
             ctrlUsuarios.eliminar(id);
 	}
+
+	@Override
+	public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception {
+		return ctrlUsuarios.consultarPorCorreoYContrasenha(correo, contrasenha);
+	}
+
+	@Override
+	public void agregarComentario(Comentario comentario) {
+		ctrlComentario.agregar(comentario);
+	}
+
 }

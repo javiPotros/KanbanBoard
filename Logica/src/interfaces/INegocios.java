@@ -7,15 +7,15 @@ public interface INegocios {
 
     public Usuario agregarUsuario(Usuario usuario) throws Exception;
 	
-	public void actualizarUsuario(Usuario usuario);
+    public void actualizarUsuario(Usuario usuario);
 	
-	public void eliminarUsuario(Long id);
+    public void eliminarUsuario(Long id);
   
     public Usuario consultarUsuario(Long id);
     
     public Usuario consultarUsuarioCorreo(String correo);
     
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha)throws Exception;
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception;
     
     public List<Usuario> consultarUsuarios();
 
@@ -28,4 +28,6 @@ public interface INegocios {
     public Tarea consultarTarea(Long id);
     
     public List<Tarea> consultarTareasPorHacer();
+    
+    public void agregarComentario(Comentario comentario);
 }

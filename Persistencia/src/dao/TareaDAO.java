@@ -73,6 +73,7 @@ public class TareaDAO extends baseDAO<Tarea> {
         try {
             EntityManager entityManager = this.getEntityManager();
             Tarea tarea = entityManager.find(Tarea.class, id);
+	    entityManager.refresh(tarea);
             return tarea;
         } catch (PersistenceException e) {
             System.err.println(e.getMessage());

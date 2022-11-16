@@ -12,4 +12,8 @@ public class DAOFactory {
     public static TareaDAO crearTareaDAO() {
         return new TareaDAO();
     }
+
+    public static ComentarioDAO comentariosDAO(){
+	return new ComentarioDAO();
+    }
 }

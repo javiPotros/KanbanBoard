@@ -7,6 +7,8 @@ package gui;
 import entidades.Usuario;
 import implementaciones.Negocios;
 import interfaces.INegocios;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
@@ -142,14 +144,20 @@ public class LogIn extends javax.swing.JDialog {
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
         if (validaCorreo(this.txtCorreo.getText()) && validaPassword(this.txtPassword.getText())) {
-            Usuario usuario = negocios.consultarPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
-            if (usuario != null) {
-                Board board = new Board(negocios, usuario);
-                board.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Usuario y/o Clave incorrecta");
-            }
+            Usuario usuario;
+			try {
+				usuario = negocios.consultarPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
+				if (usuario != null) {
+					Board board = new Board(negocios, usuario);
+					board.setVisible(true);
+					this.dispose();
+				} else {
+					JOptionPane.showMessageDialog(rootPane, "Usuario y/o Clave incorrecta");
+				}
+			} catch (Exception ex) {
+				Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+			}
+            
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 

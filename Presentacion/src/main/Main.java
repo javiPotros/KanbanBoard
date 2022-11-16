@@ -4,7 +4,11 @@
  */
 package main;
 
+import entidades.Usuario;
+import gui.Board;
 import gui.LogIn;
+import implementaciones.Negocios;
+import interfaces.INegocios;
 import javax.swing.UIManager;
 
 /**
@@ -44,6 +48,7 @@ public class Main {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+//		new Board(new Negocios(), new Usuario()).setVisible(true);
                 new LogIn().setVisible(true);
             }
         });

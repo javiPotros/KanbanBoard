@@ -5,6 +5,7 @@
     <class>entidades.Tarea</class>
     <class>entidades.Usuario</class>
     <class>entidades.Tablero</class>
+    <class>entidades.Comentario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kanban?autoReconnet=true&amp;useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

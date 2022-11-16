@@ -2,6 +2,7 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,6 +41,9 @@ public class Tarea implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "tarea")
+    private List<Comentario> comentario;
 
 //    @ManyToOne(cascade = CascadeType.REFRESH)
 //    @JoinColumn(name = "id_tablero", nullable = false)
@@ -70,6 +75,15 @@ public class Tarea implements Serializable {
         this.usuario = usuario;
         this.estado = estado;
     }
+
+	public Tarea(String titulo, String descripcion, Integer estado, Date fechaLim, Usuario usuario, List<Comentario> comentario) {
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.estado = estado;
+		this.fechaLim = fechaLim;
+		this.usuario = usuario;
+		this.comentario = comentario;
+	}
 
     public Long getId() {
         return id;
@@ -125,5 +139,13 @@ public class Tarea implements Serializable {
 
     public void setEstado(Integer estado) {
         this.estado = estado;
+    }
+
+    public List<Comentario> getComentario() {
+	return comentario;
+    }
+
+    public void setComentario(List<Comentario> comentario) {
+	this.comentario = comentario;
     }
 }

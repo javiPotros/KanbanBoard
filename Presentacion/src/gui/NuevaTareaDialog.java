@@ -4,6 +4,7 @@ import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -43,7 +44,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         Tarea tarea = new Tarea();
         tarea.setTitulo(this.txtTitulo.getText());
         tarea.setDescripcion(this.txtDescripcion.getText());
-        tarea.setFechaLim(java.sql.Date.valueOf(this.fechaPicker.getDate()));
+	tarea.setFechaLim(Date.from(this.fechaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         tarea.setUsuario((Usuario) this.cmbBoxUsuarios.getSelectedItem());
         tarea.setEstado(this.estado);
         try {
@@ -366,7 +367,9 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnComentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentariosActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+		Comentarios comentarios = new Comentarios(negocios, tarea);
+		comentarios.setVisible(true);
     }//GEN-LAST:event_btnComentariosActionPerformed
 
 
