@@ -29,12 +29,11 @@ public class Negocios implements INegocios {
     public Usuario consultarUsuario(Long id) {
         return ctrlUsuarios.consultar(id);
     }
-    
+
     @Override
     public Usuario consultarUsuarioCorreo(String correo) {
         return ctrlUsuarios.consultarPorCorreo(correo);
     }
- 
 
     @Override
     public List<Usuario> consultarUsuarios() {
@@ -66,24 +65,34 @@ public class Negocios implements INegocios {
         return ctrlTareas.consultarPorHacer();
     }
 
-	@Override
-	public void actualizarUsuario(Usuario usuario) {
-		ctrlUsuarios.actualizas(usuario);
-	}
+    @Override
+    public List<Tarea> consultarTareasEnProgreso() {
+        return ctrlTareas.consultarEnProgeso();
+    }
 
-	@Override
-	public void eliminarUsuario(Long id) {
-            ctrlUsuarios.eliminar(id);
-	}
+    @Override
+    public List<Tarea> consultarTareasRealizado() {
+        return ctrlTareas.consultarRealizado();
+    }
 
-	@Override
-	public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception {
-		return ctrlUsuarios.consultarPorCorreoYContrasenha(correo, contrasenha);
-	}
+    @Override
+    public void actualizarUsuario(Usuario usuario) {
+        ctrlUsuarios.actualizas(usuario);
+    }
 
-	@Override
-	public void agregarComentario(Comentario comentario) {
-		ctrlComentario.agregar(comentario);
-	}
+    @Override
+    public void eliminarUsuario(Long id) {
+        ctrlUsuarios.eliminar(id);
+    }
+
+    @Override
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception {
+        return ctrlUsuarios.consultarPorCorreoYContrasenha(correo, contrasenha);
+    }
+
+    @Override
+    public void agregarComentario(Comentario comentario) {
+        ctrlComentario.agregar(comentario);
+    }
 
 }

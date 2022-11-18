@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -28,25 +30,24 @@ public class Board extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-        
+
         this.listaPorHacer = new ArrayList<>();
         this.listaEnProgreso = new ArrayList<>();
         this.listaRealizado = new ArrayList<>();
         this.negocios = negocios;
         this.usuario = usuario;
         this.listaPorHacer = negocios.consultarTareasPorHacer();
+        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+        this.listaRealizado = negocios.consultarTareasRealizado();
 
         if (!"admin".equals(usuario.getRol())) {
             menu.setVisible(false);
         }
-        
-        if (listaPorHacer != null) {
-            llenarTablaPorHacer();
-        }
 
+        llenarTablaPorHacer();
         llenarTablaEnProgreso();
         llenarTablaRealizado();
-        agregarListener();
+        agregarListenerVerTarea();
     }
 
     private void verTarea(MouseEvent me) {
@@ -109,7 +110,7 @@ public class Board extends javax.swing.JFrame {
         llenarTablaPorHacer();
     }
 
-    private void agregarListener() {
+    private void agregarListenerVerTarea() {
         tablaPorHacer.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 if (me.getClickCount() == 2) {     // to detect doble click events
@@ -117,6 +118,50 @@ public class Board extends javax.swing.JFrame {
                 }
             }
         });
+    }
+
+    private void cambiarPorHacerToProgreso() throws Exception {
+        int row = tablaPorHacer.getSelectedRow();
+        Tarea tarea = listaPorHacer.get(row);
+        tarea.setEstado(1);
+        negocios.actualizarTarea(tarea);
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
+        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+        llenarTablaPorHacer();
+        llenarTablaEnProgreso();
+    }
+
+    private void cambiarEnProgresoToPorHacer() throws Exception {
+        int row = tablaEnProgreso.getSelectedRow();
+        Tarea tarea = listaEnProgreso.get(row);
+        tarea.setEstado(0);
+        negocios.actualizarTarea(tarea);
+        this.listaPorHacer = negocios.consultarTareasPorHacer();
+        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+        llenarTablaPorHacer();
+        llenarTablaEnProgreso();
+    }
+
+    private void cambiarEnProgresoToRealizado() throws Exception {
+        int row = tablaEnProgreso.getSelectedRow();
+        Tarea tarea = listaEnProgreso.get(row);
+        tarea.setEstado(2);
+        negocios.actualizarTarea(tarea);
+        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+        this.listaRealizado = negocios.consultarTareasRealizado();
+        llenarTablaEnProgreso();
+        llenarTablaRealizado();
+    }
+    
+        private void cambiarRealizadoToEnProgreso() throws Exception {
+        int row = tablaRealizado.getSelectedRow();
+        Tarea tarea = listaRealizado.get(row);
+        tarea.setEstado(1);
+        negocios.actualizarTarea(tarea);
+        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+        this.listaRealizado = negocios.consultarTareasRealizado();
+        llenarTablaEnProgreso();
+        llenarTablaRealizado();
     }
 
 //    public void eliminarEnProgreso() {
@@ -184,9 +229,19 @@ public class Board extends javax.swing.JFrame {
 
         btnPorHacerToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnPorHacerToProgreso.setText("→");
+        btnPorHacerToProgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPorHacerToProgresoActionPerformed(evt);
+            }
+        });
 
         btnProgresoToPorHacer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToPorHacer.setText("←");
+        btnProgresoToPorHacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProgresoToPorHacerActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -438,9 +493,19 @@ public class Board extends javax.swing.JFrame {
 
         btnRealizadoToProgreso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnRealizadoToProgreso.setText("←");
+        btnRealizadoToProgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRealizadoToProgresoActionPerformed(evt);
+            }
+        });
 
         btnProgresoToRealizado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnProgresoToRealizado.setText("→");
+        btnProgresoToRealizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProgresoToRealizadoActionPerformed(evt);
+            }
+        });
 
         menuAdministrar.setText("Administrar");
 
@@ -536,8 +601,40 @@ public class Board extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarRealizadoActionPerformed
 
     private void administrarUsuariosItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administrarUsuariosItemActionPerformed
-        AdministrarUsuarioDialog  adminUsuarioDlg = new AdministrarUsuarioDialog(this, true, negocios);
+        AdministrarUsuarioDialog adminUsuarioDlg = new AdministrarUsuarioDialog(this, true, negocios);
     }//GEN-LAST:event_administrarUsuariosItemActionPerformed
+
+    private void btnPorHacerToProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPorHacerToProgresoActionPerformed
+        try {
+            cambiarPorHacerToProgreso();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnPorHacerToProgresoActionPerformed
+
+    private void btnProgresoToPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgresoToPorHacerActionPerformed
+        try {
+            cambiarEnProgresoToPorHacer();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnProgresoToPorHacerActionPerformed
+
+    private void btnProgresoToRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgresoToRealizadoActionPerformed
+        try {
+            cambiarEnProgresoToRealizado();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnProgresoToRealizadoActionPerformed
+
+    private void btnRealizadoToProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizadoToProgresoActionPerformed
+        try {
+            cambiarRealizadoToEnProgreso();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnRealizadoToProgresoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

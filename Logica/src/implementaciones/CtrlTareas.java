@@ -36,6 +36,14 @@ public class CtrlTareas {
         return tareaDAO.consultarPorHacer();
     }
 
+    public List<Tarea> consultarEnProgeso() {
+        return tareaDAO.consultarEnProgreso();
+    }
+
+    public List<Tarea> consultarRealizado() {
+        return tareaDAO.consultarRealizado();
+    }
+
     private void validarCampos(Tarea tarea) throws Exception {
         validarTitulo(tarea.getTitulo());
         validarDescripcion(tarea.getDescripcion());
@@ -49,7 +57,7 @@ public class CtrlTareas {
             throw new Exception("El título debe tener máximo 100 caracteres");
         }
     }
-    
+
     private void validarDescripcion(String descripcion) throws Exception {
         if (descripcion.equalsIgnoreCase("")) {
             throw new Exception("Introduzca un título");
@@ -57,12 +65,11 @@ public class CtrlTareas {
             throw new Exception("La descripción debe de tener máximo 100 caracteres");
         }
     }
-    
+
     private void validarFecha(Date fecha) throws Exception {
-        if(fecha == null){
+        if (fecha == null) {
             throw new Exception("Introduzca una fecha");
-        }
-        else if (fecha.before(new Date())) {
+        } else if (fecha.before(new Date())) {
             throw new Exception("La fecha debe de ser posterior a la fecha actual");
         }
     }

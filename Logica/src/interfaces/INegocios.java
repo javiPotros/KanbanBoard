@@ -1,4 +1,4 @@
-  package interfaces;
+package interfaces;
 
 import entidades.*;
 import java.util.List;
@@ -6,17 +6,17 @@ import java.util.List;
 public interface INegocios {
 
     public Usuario agregarUsuario(Usuario usuario) throws Exception;
-	
+
     public void actualizarUsuario(Usuario usuario);
-	
+
     public void eliminarUsuario(Long id);
-  
+
     public Usuario consultarUsuario(Long id);
-    
+
     public Usuario consultarUsuarioCorreo(String correo);
-    
+
     public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception;
-    
+
     public List<Usuario> consultarUsuarios();
 
     public void agregarTarea(Tarea tarea) throws Exception;
@@ -26,8 +26,12 @@ public interface INegocios {
     public void eliminarTarea(Long id);
 
     public Tarea consultarTarea(Long id);
-    
+
     public List<Tarea> consultarTareasPorHacer();
-    
+
+    public List<Tarea> consultarTareasEnProgreso();
+
+    public List<Tarea> consultarTareasRealizado();
+
     public void agregarComentario(Comentario comentario);
 }

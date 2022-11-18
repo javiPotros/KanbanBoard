@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main;
 
 import entidades.Usuario;
@@ -11,10 +7,6 @@ import implementaciones.Negocios;
 import interfaces.INegocios;
 import javax.swing.UIManager;
 
-/**
- *
- * @author jjavi
- */
 public class Main {
         /**
      * @param args the command line arguments
@@ -48,8 +40,8 @@ public class Main {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//		new Board(new Negocios(), new Usuario()).setVisible(true);
-                new LogIn().setVisible(true);
+new Board(new Negocios(), new Usuario()).setVisible(true);
+                //new LogIn().setVisible(true);
             }
         });
     }

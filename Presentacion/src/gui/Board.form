@@ -110,6 +110,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2192;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPorHacerToProgresoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProgresoToPorHacer">
       <Properties>
@@ -118,6 +121,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2190;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProgresoToPorHacerActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
@@ -504,6 +510,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2190;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRealizadoToProgresoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProgresoToRealizado">
       <Properties>
@@ -512,6 +521,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2192;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProgresoToRealizadoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

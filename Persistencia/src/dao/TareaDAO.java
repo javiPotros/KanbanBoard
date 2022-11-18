@@ -42,6 +42,7 @@ public class TareaDAO extends baseDAO<Tarea> {
             tareaVieja.setDescripcion(tarea.getDescripcion());
             tareaVieja.setFechaLim(tarea.getFechaLim());
             tareaVieja.setUsuario(tarea.getUsuario());
+            tareaVieja.setEstado(tarea.getEstado());
 
             entityManager.persist(tareaVieja);
             entityManager.getTransaction().commit();
@@ -73,7 +74,7 @@ public class TareaDAO extends baseDAO<Tarea> {
         try {
             EntityManager entityManager = this.getEntityManager();
             Tarea tarea = entityManager.find(Tarea.class, id);
-	    entityManager.refresh(tarea);
+            entityManager.refresh(tarea);
             return tarea;
         } catch (PersistenceException e) {
             System.err.println(e.getMessage());
@@ -98,6 +99,30 @@ public class TareaDAO extends baseDAO<Tarea> {
         try {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 0", Tarea.class);
+            List<Tarea> listaTarea = query.getResultList();
+            return listaTarea;
+        } catch (PersistenceException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Tarea> consultarEnProgreso() {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 1", Tarea.class);
+            List<Tarea> listaTarea = query.getResultList();
+            return listaTarea;
+        } catch (PersistenceException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Tarea> consultarRealizado() {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 2", Tarea.class);
             List<Tarea> listaTarea = query.getResultList();
             return listaTarea;
         } catch (PersistenceException e) {
