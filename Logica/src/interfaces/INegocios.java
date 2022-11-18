@@ -7,7 +7,7 @@ public interface INegocios {
 
     public Usuario agregarUsuario(Usuario usuario) throws Exception;
 
-    public void actualizarUsuario(Usuario usuario);
+    public void actualizarUsuario(Usuario usuario) throws Exception;
 
     public void eliminarUsuario(Long id);
 
@@ -18,6 +18,8 @@ public interface INegocios {
     public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception;
 
     public List<Usuario> consultarUsuarios();
+    
+    public List<String> consultarRoles();
 
     public void agregarTarea(Tarea tarea) throws Exception;
 

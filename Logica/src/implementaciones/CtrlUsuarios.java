@@ -18,14 +18,16 @@ public class CtrlUsuarios {
         validarCampos(usuario);
         return usuarioDAO.agregar(usuario);
     }
-	public void eliminar(long id){
-		usuarioDAO.eliminar(id);
-	}
-	
-	public void actualizas(Usuario usuario){
-		usuarioDAO.actualizar(usuario);
-	}
-	
+
+    public void eliminar(long id) {
+        usuarioDAO.eliminar(id);
+    }
+
+    public void actualizar(Usuario usuario) throws Exception {
+        validarCamposActualizar(usuario);
+        usuarioDAO.actualizar(usuario);
+    }
+
     public Usuario consultar(Long id) {
         return usuarioDAO.consultar(id);
     }
@@ -33,13 +35,17 @@ public class CtrlUsuarios {
     public Usuario consultarPorCorreo(String correo) {
         return usuarioDAO.consultarPorCorreo(correo);
     }
-    
+
     public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception {
         return usuarioDAO.consultarPorCorreoYContrasenha(correo, contrasenha);
     }
 
     public List<Usuario> consultarTodos() {
         return usuarioDAO.consultarTodos();
+    }
+    
+    public List<String> consultarRoles() {
+        return usuarioDAO.consultarRoles();
     }
 
     private void validarCampos(Usuario usuario) throws Exception {
@@ -49,6 +55,13 @@ public class CtrlUsuarios {
         validarContrasenha(usuario.getContrasenha());
     }
     
+    private void validarCamposActualizar(Usuario usuario) throws Exception {
+        validarNombre(usuario.getNombre());
+        validarRol(usuario.getRol());
+        validarCorreoActualizar(usuario.getCorreo());
+        validarContrasenha(usuario.getContrasenha());
+    }
+
     private void validarNombre(String nombre) throws Exception {
         if (nombre.trim().isEmpty()) {
             throw new Exception("Introduzca un nombre");
@@ -79,6 +92,18 @@ public class CtrlUsuarios {
         }
     }
     
+    private void validarCorreoActualizar(String correo) throws Exception {
+        Pattern patron = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        boolean emailValido = patron.matcher(correo).matches();
+
+        if (correo.trim().isEmpty()) {
+            throw new Exception("Introduzca un correo");
+        } else if (correo.length() > 100) {
+            throw new Exception("El correo debe tener máximo 100 caracteres");
+        } else if (!emailValido) {
+            throw new Exception("Introduzca un correo válido");
+        }
+    }
 
     private void validarContrasenha(String contrasenha) throws Exception {
         if (contrasenha.trim().isEmpty()) {

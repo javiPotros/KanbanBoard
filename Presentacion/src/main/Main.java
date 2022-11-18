@@ -40,8 +40,8 @@ public class Main {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-new Board(new Negocios(), new Usuario()).setVisible(true);
-                //new LogIn().setVisible(true);
+            //new Board(new Negocios(), new Usuario()).setVisible(true);
+            new LogIn().setVisible(true);
             }
         });
     }

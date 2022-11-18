@@ -39,6 +39,11 @@ public class Negocios implements INegocios {
     public List<Usuario> consultarUsuarios() {
         return ctrlUsuarios.consultarTodos();
     }
+    
+    @Override
+    public List<String> consultarRoles() {
+        return ctrlUsuarios.consultarRoles();
+    }
 
     @Override
     public void agregarTarea(Tarea tarea) throws Exception {
@@ -76,8 +81,8 @@ public class Negocios implements INegocios {
     }
 
     @Override
-    public void actualizarUsuario(Usuario usuario) {
-        ctrlUsuarios.actualizas(usuario);
+    public void actualizarUsuario(Usuario usuario) throws Exception {
+        ctrlUsuarios.actualizar(usuario);
     }
 
     @Override
@@ -94,5 +99,4 @@ public class Negocios implements INegocios {
     public void agregarComentario(Comentario comentario) {
         ctrlComentario.agregar(comentario);
     }
-
 }

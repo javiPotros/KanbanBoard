@@ -37,9 +37,9 @@ public class UsuarioDAO extends baseDAO<Usuario> {
                 throw new Exception("El usuario no existe");
             }
             usuarioViejo.setNombre(usuario.getNombre());
-	   usuarioViejo.setRol(usuario.getRol());
-	   usuarioViejo.setCorreo(usuario.getCorreo());
-	   usuarioViejo.setContrasenha(usuario.getContrasenha());
+            usuarioViejo.setRol(usuario.getRol());
+            usuarioViejo.setCorreo(usuario.getCorreo());
+            usuarioViejo.setContrasenha(usuario.getContrasenha());
             entityManager.persist(usuarioViejo);
             entityManager.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente", "Información",
@@ -90,9 +90,9 @@ public class UsuarioDAO extends baseDAO<Usuario> {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
-        }       
+        }
     }
-    
+
     public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) {
         try {
             EntityManager entityManager = this.getEntityManager();
@@ -104,7 +104,7 @@ public class UsuarioDAO extends baseDAO<Usuario> {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
-        }       
+        }
     }
 
     @Override
@@ -122,5 +122,19 @@ public class UsuarioDAO extends baseDAO<Usuario> {
             return null;
         }
     }
-
+    
+    public List<String> consultarRoles() {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            TypedQuery query = entityManager.createQuery("SELECT u.rol FROM Usuario u", String.class);
+            List<String> listaRoles = query.getResultList();
+            for (String rol : listaRoles) {
+                System.out.println(rol);
+            }
+            return listaRoles;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }
