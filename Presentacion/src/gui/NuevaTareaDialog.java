@@ -16,8 +16,9 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     private List<Usuario> usuarios;
     Tarea tarea;
     private Integer tipo;
+	private Usuario usuario;
 
-    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios, Integer estado, Integer tipo, Tarea tarea) {
+    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios, Integer estado, Integer tipo, Tarea tarea, Usuario usuario) {
         super(parent, modal);
         initComponents();
         this.negocios = negocios;
@@ -25,7 +26,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         this.usuarios = negocios.consultarUsuarios();
         this.tarea = tarea;
         this.tipo = tipo;
-
+        this.usuario = usuario;
         switch (tipo) {
             case 0:
                 configurarVer();
@@ -368,7 +369,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
 
     private void btnComentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentariosActionPerformed
         this.setVisible(false);
-		Comentarios comentarios = new Comentarios(negocios, tarea);
+		Comentarios comentarios = new Comentarios(negocios, tarea,usuario);
 		comentarios.setVisible(true);
     }//GEN-LAST:event_btnComentariosActionPerformed
 

@@ -55,7 +55,7 @@ public class Board extends javax.swing.JFrame {
         JTable target = (JTable) me.getSource();
         int row = target.getSelectedRow();
         Tarea tarea = listaPorHacer.get(row);
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea,usuario);
         llenarTablaPorHacer();
     }
 
@@ -571,20 +571,20 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null,null);
         this.listaPorHacer = negocios.consultarTareasPorHacer();
         llenarTablaPorHacer();
         this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
     private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null,null);
         llenarTablaEnProgreso();
         this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
 
     private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null,null);
         llenarTablaRealizado();
     }//GEN-LAST:event_btnCrearRealizadoActionPerformed
 

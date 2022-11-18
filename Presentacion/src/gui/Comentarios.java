@@ -2,15 +2,18 @@ package gui;
 
 import entidades.Comentario;
 import entidades.Tarea;
+import entidades.Usuario;
 import interfaces.INegocios;
 
 public class Comentarios extends javax.swing.JFrame {
 	private INegocios negocios;
 	private Long id;
-	public Comentarios(INegocios negocios, Tarea tarea) {
+	private Usuario usuario;
+	public Comentarios(INegocios negocios, Tarea tarea, Usuario usuario) {
 		initComponents();
 		 this.negocios = negocios;
 		 this.id = tarea.getId();
+		 this.usuario = usuario;
 		 llenarComentarios();
 	}
 	
@@ -86,7 +89,7 @@ public class Comentarios extends javax.swing.JFrame {
     private void btnComentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentarActionPerformed
 	this.txtComentarios.setText("");
 	String mensaje = this.txtChat.getText();
-	String mensajero = "admin";
+	String mensajero = this.usuario.getNombre();
 	Tarea tarea = negocios.consultarTarea(id);
 	Comentario comentario = new Comentario(tarea, mensajero, mensaje);
 	negocios.agregarComentario(comentario);
