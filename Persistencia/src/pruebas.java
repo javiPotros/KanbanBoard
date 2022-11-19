@@ -42,14 +42,14 @@ public class pruebas {
 //		
 //		tDao.actualizar(tareaNew);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		Usuario user = uDao.consultar(1);
-		System.out.println("ID: "+user.getId()+"\n"+
-					"Nombre: "+ user.getNombre()+"\n");
-		for (Tarea tarea : user.getTareas()) {
-			System.out.println("ID: "+tarea.getId()+"\n"+
-						"Titulo: "+tarea.getTitulo()+"\n"+
-						"Descripcion: "+tarea.getDescripcion());
-		}
+//		Usuario user = uDao.consultar(1);
+//		System.out.println("ID: "+user.getId()+"\n"+
+//					"Nombre: "+ user.getNombre()+"\n");
+//		for (Tarea tarea : user.getTareas()) {
+//			System.out.println("ID: "+tarea.getId()+"\n"+
+//						"Titulo: "+tarea.getTitulo()+"\n"+
+//						"Descripcion: "+tarea.getDescripcion());
+//		}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		Tablero tablero = taDao.consultar(2);
 //		System.out.println("ID: "+tablero.getId()+"\n"+

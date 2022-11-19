@@ -1,39 +1,39 @@
 package interfaces;
 
 import entidades.*;
+import excepciones.DAOException;
 import java.util.List;
 
 public interface INegocios {
 
-    public Usuario agregarUsuario(Usuario usuario) throws Exception;
+    public void agregarUsuario(Usuario usuario) throws IllegalArgumentException, DAOException;
 
-    public void actualizarUsuario(Usuario usuario) throws Exception;
+    public void actualizarUsuario(Usuario usuario) throws IllegalArgumentException, DAOException;
 
-    public void eliminarUsuario(Long id);
+    public void eliminarUsuario(Long id) throws NullPointerException, DAOException;
 
-    public Usuario consultarUsuario(Long id);
+    public Usuario consultarUsuario(Long id) throws NullPointerException, DAOException;
 
-    public Usuario consultarUsuarioCorreo(String correo);
+    public Usuario consultarUsuarioPorCorreo(String correo) throws NullPointerException, DAOException;
 
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception;
+    public Usuario consultarUsuarioPorCorreoYContrasenha(String correo, String contrasenha) 
+            throws NullPointerException, DAOException;
 
-    public List<Usuario> consultarUsuarios();
-    
-    public List<String> consultarRoles();
+    public List<Usuario> consultarUsuarios() throws DAOException;
 
-    public void agregarTarea(Tarea tarea) throws Exception;
+    public void agregarTarea(Tarea tarea) throws IllegalArgumentException, DAOException;
 
-    public void actualizarTarea(Tarea tarea) throws Exception;
+    public void actualizarTarea(Tarea tarea) throws IllegalArgumentException, DAOException;
 
-    public void eliminarTarea(Long id);
+    public void eliminarTarea(Long id) throws NullPointerException, DAOException;
 
-    public Tarea consultarTarea(Long id);
+    public Tarea consultarTarea(Long id) throws NullPointerException, DAOException;
 
-    public List<Tarea> consultarTareasPorHacer();
+    public List<Tarea> consultarTareasPorHacer() throws DAOException;
 
-    public List<Tarea> consultarTareasEnProgreso();
+    public List<Tarea> consultarTareasEnProgreso() throws DAOException;
 
-    public List<Tarea> consultarTareasRealizado();
+    public List<Tarea> consultarTareasRealizado() throws DAOException;
 
-    public void agregarComentario(Comentario comentario);
+    public void agregarComentario(Comentario comentario) throws DAOException;
 }

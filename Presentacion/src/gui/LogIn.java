@@ -146,7 +146,7 @@ public class LogIn extends javax.swing.JDialog {
         if (validaCorreo(this.txtCorreo.getText()) && validaPassword(this.txtPassword.getText())) {
             Usuario usuario;
 			try {
-				usuario = negocios.consultarPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
+				usuario = negocios.consultarUsuarioPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
 				if (usuario != null) {
 					Board board = new Board(negocios, usuario);
 					board.setVisible(true);

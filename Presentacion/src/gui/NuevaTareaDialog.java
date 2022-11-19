@@ -2,7 +2,9 @@ package gui;
 
 import entidades.Tarea;
 import entidades.Usuario;
+import excepciones.DAOException;
 import interfaces.INegocios;
+import java.awt.HeadlessException;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -16,9 +18,8 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     private List<Usuario> usuarios;
     Tarea tarea;
     private Integer tipo;
-	private Usuario usuario;
 
-    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios, Integer estado, Integer tipo, Tarea tarea, Usuario usuario) {
+    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios, Integer estado, Integer tipo, Tarea tarea) {
         super(parent, modal);
         initComponents();
         this.negocios = negocios;
@@ -26,7 +27,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         this.usuarios = negocios.consultarUsuarios();
         this.tarea = tarea;
         this.tipo = tipo;
-        this.usuario = usuario;
+
         switch (tipo) {
             case 0:
                 configurarVer();
@@ -42,19 +43,21 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     }
 
     private void agregarTarea() {
-        Tarea tarea = new Tarea();
-        tarea.setTitulo(this.txtTitulo.getText());
-        tarea.setDescripcion(this.txtDescripcion.getText());
-	tarea.setFechaLim(Date.from(this.fechaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        tarea.setUsuario((Usuario) this.cmbBoxUsuarios.getSelectedItem());
-        tarea.setEstado(this.estado);
+        Tarea nuevaTarea = new Tarea();
+        nuevaTarea.setTitulo(this.txtTitulo.getText());
+        nuevaTarea.setDescripcion(this.txtDescripcion.getText());
+        if (this.fechaPicker.getDate() != null) {
+            nuevaTarea.setFechaLim(Date.from(this.fechaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        nuevaTarea.setUsuario((Usuario) this.cmbBoxUsuarios.getSelectedItem());
+        nuevaTarea.setEstado(this.estado);
         try {
-            negocios.agregarTarea(tarea);
+            negocios.agregarTarea(nuevaTarea);
             JOptionPane.showMessageDialog(null, "Se ha guardado la tarea correctamente",
                     "Información", JOptionPane.INFORMATION_MESSAGE);
             setVisible(false);
             dispose();
-        } catch (Exception ex) {
+        } catch (DAOException | IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -77,7 +80,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
                     "Información", JOptionPane.INFORMATION_MESSAGE);
             setVisible(false);
             dispose();
-        } catch (Exception ex) {
+        } catch (DAOException | HeadlessException | IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -91,7 +94,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
                 setVisible(false);
                 dispose();
             }
-        } catch (Exception ex) {
+        } catch (DAOException | HeadlessException | NullPointerException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -141,14 +144,13 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         ocultarBotonesLaterales();
     }
 
-    private void configuracionEliminar() {
-        tipo = 3;
-        this.setTitle("Eliminar tarea");
-        btnAceptar.setText("Eliminar");
-        deshabilitarEditarCampos();
-        ocultarBotonesLaterales();
-    }
-
+//    private void configuracionEliminar() {
+//        tipo = 3;
+//        this.setTitle("Eliminar tarea");
+//        btnAceptar.setText("Eliminar");
+//        deshabilitarEditarCampos();
+//        ocultarBotonesLaterales();
+//    }
     private void habilitarEditarCampos() {
         btnLimpiar.setEnabled(true);
         btnCancelar.setEnabled(true);
@@ -174,6 +176,12 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         btnEliminar.setEnabled(false);
         btnComentarios.setVisible(false);
         btnComentarios.setEnabled(false);
+    }
+
+    private void mostrarComentarios() {
+        this.setVisible(false);
+        Comentarios comentarios = new Comentarios(negocios, tarea);
+        comentarios.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -368,9 +376,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnComentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentariosActionPerformed
-        this.setVisible(false);
-		Comentarios comentarios = new Comentarios(negocios, tarea,usuario);
-		comentarios.setVisible(true);
+        mostrarComentarios();
     }//GEN-LAST:event_btnComentariosActionPerformed
 
 

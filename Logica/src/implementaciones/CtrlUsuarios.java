@@ -3,6 +3,7 @@ package implementaciones;
 import dao.DAOFactory;
 import dao.UsuarioDAO;
 import entidades.Usuario;
+import excepciones.DAOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -14,102 +15,95 @@ public class CtrlUsuarios {
         usuarioDAO = DAOFactory.crearUsuarioDAO();
     }
 
-    public Usuario agregar(Usuario usuario) throws Exception {
+    public void agregar(Usuario usuario) throws IllegalArgumentException, DAOException {
         validarCampos(usuario);
-        return usuarioDAO.agregar(usuario);
+        usuarioDAO.agregar(usuario);
     }
 
-    public void eliminar(long id) {
-        usuarioDAO.eliminar(id);
-    }
-
-    public void actualizar(Usuario usuario) throws Exception {
-        validarCamposActualizar(usuario);
+    public void actualizar(Usuario usuario) throws IllegalArgumentException, DAOException {
+        validarCampos(usuario);
         usuarioDAO.actualizar(usuario);
     }
 
-    public Usuario consultar(Long id) {
-        return usuarioDAO.consultar(id);
+    public void eliminar(Long id) throws NullPointerException, DAOException {
+        if (id != null) {
+            usuarioDAO.eliminar(id);
+        } else {
+            throw new NullPointerException();
+        }
     }
 
-    public Usuario consultarPorCorreo(String correo) {
-        return usuarioDAO.consultarPorCorreo(correo);
+    public Usuario consultar(Long id) throws NullPointerException, DAOException {
+        if (id != null) {
+            return usuarioDAO.consultar(id);
+        } else {
+            throw new NullPointerException();
+        }
     }
 
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws Exception {
-        return usuarioDAO.consultarPorCorreoYContrasenha(correo, contrasenha);
+    public Usuario consultarPorCorreo(String correo) throws NullPointerException, DAOException {
+        if (correo != null) {
+            return usuarioDAO.consultarPorCorreo(correo);
+        } else {
+            throw new NullPointerException();
+        }
     }
 
-    public List<Usuario> consultarTodos() {
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha)
+            throws NullPointerException, DAOException {
+        if (correo != null && contrasenha != null) {
+            return usuarioDAO.consultarPorCorreoYContrasenha(correo, contrasenha);
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public List<Usuario> consultarTodos() throws DAOException{
         return usuarioDAO.consultarTodos();
     }
-    
-    public List<String> consultarRoles() {
-        return usuarioDAO.consultarRoles();
-    }
 
-    private void validarCampos(Usuario usuario) throws Exception {
+    private void validarCampos(Usuario usuario) throws IllegalArgumentException {
         validarNombre(usuario.getNombre());
         validarRol(usuario.getRol());
         validarCorreo(usuario.getCorreo());
         validarContrasenha(usuario.getContrasenha());
     }
-    
-    private void validarCamposActualizar(Usuario usuario) throws Exception {
-        validarNombre(usuario.getNombre());
-        validarRol(usuario.getRol());
-        validarCorreoActualizar(usuario.getCorreo());
-        validarContrasenha(usuario.getContrasenha());
-    }
 
-    private void validarNombre(String nombre) throws Exception {
+    private void validarNombre(String nombre) throws IllegalArgumentException {
         if (nombre.trim().isEmpty()) {
-            throw new Exception("Introduzca un nombre");
+            throw new IllegalArgumentException("Introduzca un nombre");
         } else if (nombre.length() > 100) {
-            throw new Exception("El nombre debe tener máximo 100 caracteres");
+            throw new IllegalArgumentException("El nombre debe tener máximo 100 caracteres");
         }
     }
 
-    private void validarRol(String rol) throws Exception {
+    private void validarRol(String rol) throws IllegalArgumentException {
         if (rol.equalsIgnoreCase("-Seleccionar-")) {
-            throw new Exception("Seleccione un rol");
+            throw new IllegalArgumentException("Seleccione un rol");
         }
     }
 
-    private void validarCorreo(String correo) throws Exception {
+    private void validarCorreo(String correo) throws IllegalArgumentException {
         Pattern patron = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
         boolean emailValido = patron.matcher(correo).matches();
         Usuario usuario = consultarPorCorreo(correo);
 
         if (correo.trim().isEmpty()) {
-            throw new Exception("Introduzca un correo");
+            throw new IllegalArgumentException("Introduzca un correo");
         } else if (correo.length() > 100) {
-            throw new Exception("El correo debe tener máximo 100 caracteres");
+            throw new IllegalArgumentException("El correo debe tener máximo 100 caracteres");
         } else if (!emailValido) {
-            throw new Exception("Introduzca un correo válido");
+            throw new IllegalArgumentException("Introduzca un correo válido");
         } else if (usuario != null) {
-            throw new Exception("El correo introducido ya esta asociado a una cuenta");
-        }
-    }
-    
-    private void validarCorreoActualizar(String correo) throws Exception {
-        Pattern patron = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-        boolean emailValido = patron.matcher(correo).matches();
-
-        if (correo.trim().isEmpty()) {
-            throw new Exception("Introduzca un correo");
-        } else if (correo.length() > 100) {
-            throw new Exception("El correo debe tener máximo 100 caracteres");
-        } else if (!emailValido) {
-            throw new Exception("Introduzca un correo válido");
+            throw new IllegalArgumentException("El correo introducido ya esta asociado a una cuenta");
         }
     }
 
-    private void validarContrasenha(String contrasenha) throws Exception {
+    private void validarContrasenha(String contrasenha) throws IllegalArgumentException {
         if (contrasenha.trim().isEmpty()) {
-            throw new Exception("Introduzca una contraseña");
+            throw new IllegalArgumentException("Introduzca una contraseña");
         } else if (contrasenha.length() > 100) {
-            throw new Exception("La contraseña debe tener máximo 100 caracteres");
+            throw new IllegalArgumentException("La contraseña debe tener máximo 100 caracteres");
         }
     }
 

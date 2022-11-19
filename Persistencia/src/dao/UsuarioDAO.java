@@ -2,113 +2,97 @@ package dao;
 
 import interfaces.baseDAO;
 import entidades.Usuario;
+import excepciones.DAOException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.swing.JOptionPane;
 
 public class UsuarioDAO extends baseDAO<Usuario> {
 
     @Override
-    public Usuario agregar(Usuario usuario) {
+    public void agregar(Usuario usuario) throws DAOException {
         try {
             EntityManager entityManager = this.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(usuario);
             entityManager.getTransaction().commit();
-            return usuario;
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            return null;
+        } catch (PersistenceException ex) {
+            throw new DAOException();
         }
     }
 
     @Override
-    public Usuario actualizar(Usuario usuario) {
+    public void actualizar(Usuario usuario) throws DAOException {
         try {
-            if (usuario.getId() == null || usuario == null) {
-                throw new IllegalArgumentException("El usuario no es valido");
-            }
             EntityManager entityManager = this.getEntityManager();
             entityManager.getTransaction().begin();
-            Usuario usuarioViejo = entityManager.find(Usuario.class, usuario.getId());
-            if (usuarioViejo == null) {
-                throw new Exception("El usuario no existe");
-            }
-            usuarioViejo.setNombre(usuario.getNombre());
-            usuarioViejo.setRol(usuario.getRol());
-            usuarioViejo.setCorreo(usuario.getCorreo());
-            usuarioViejo.setContrasenha(usuario.getContrasenha());
-            entityManager.persist(usuarioViejo);
+            Usuario usuarioExistente = entityManager.find(Usuario.class, usuario.getId());
+            usuarioExistente.setNombre(usuario.getNombre());
+            usuarioExistente.setRol(usuario.getRol());
+            usuarioExistente.setContrasenha(usuario.getContrasenha());
+            entityManager.persist(usuarioExistente);
             entityManager.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente", "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
-            return usuario;
-        } catch (Exception e) {
-            //REVISAR
-            System.err.println(e.getMessage());
-            return null;
+        } catch (PersistenceException e) {
+            throw new DAOException();
         }
     }
 
     @Override
-    public void eliminar(long id) {
+    public void eliminar(long id) throws DAOException {
         try {
             EntityManager entityManager = this.getEntityManager();
             entityManager.getTransaction().begin();
             Usuario usuario = entityManager.find(Usuario.class, id);
-            if (usuario != null) {
-                entityManager.remove(usuario);
-            }
+            entityManager.remove(usuario);
             entityManager.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha elimino correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: Este usuario esta en una tarea", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (PersistenceException e) {
+            throw new DAOException();
         }
     }
 
     @Override
-    public Usuario consultar(long id) {
+    public Usuario consultar(long id) throws DAOException {
         try {
             EntityManager entityManager = this.getEntityManager();
             Usuario usuario = entityManager.find(Usuario.class, id);
             return usuario;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
+        } catch (PersistenceException e) {
+            throw new DAOException();
         }
     }
 
-    public Usuario consultarPorCorreo(String correo) {
+    public Usuario consultarPorCorreo(String correo) throws DAOException {
         try {
             EntityManager entityManager = this.getEntityManager();
-            Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correo =:correo", Usuario.class);
+            Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correo =:correo",
+                    Usuario.class);
             query.setParameter("correo", correo);
             Usuario usuario = (Usuario) query.getSingleResult();
             return usuario;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
+        } catch (PersistenceException e) {
+            throw new DAOException();
         }
     }
 
-    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) {
+    public Usuario consultarPorCorreoYContrasenha(String correo, String contrasenha) throws DAOException {
         try {
             EntityManager entityManager = this.getEntityManager();
-            Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correo =:correo AND u.contrasenha =:contrasenha", Usuario.class);
+            String select
+                    = "SELECT u FROM Usuario u WHERE u.correo =:correo AND u.contrasenha =:contrasenha";
+            Query query = entityManager.createQuery(select, Usuario.class);
             query.setParameter("correo", correo);
             query.setParameter("contrasenha", contrasenha);
             Usuario usuario = (Usuario) query.getSingleResult();
             return usuario;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
+        } catch (PersistenceException e) {
+            throw new DAOException();
         }
     }
 
     @Override
-    public List<Usuario> consultarTodos() {
+    public List<Usuario> consultarTodos() throws DAOException {
         try {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT u FROM Usuario u", Usuario.class);
@@ -117,24 +101,10 @@ public class UsuarioDAO extends baseDAO<Usuario> {
                 System.out.println(usuario);
             }
             return listaUsuario;
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             System.err.println(e.getMessage());
             return null;
         }
     }
-    
-    public List<String> consultarRoles() {
-        try {
-            EntityManager entityManager = this.getEntityManager();
-            TypedQuery query = entityManager.createQuery("SELECT u.rol FROM Usuario u", String.class);
-            List<String> listaRoles = query.getResultList();
-            for (String rol : listaRoles) {
-                System.out.println(rol);
-            }
-            return listaRoles;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
-    }
+
 }

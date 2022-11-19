@@ -3,7 +3,6 @@ package entidades;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,7 +47,7 @@ public class Tarea implements Serializable {
 //    @ManyToOne(cascade = CascadeType.REFRESH)
 //    @JoinColumn(name = "id_tablero", nullable = false)
 //    private Tablero tablero;
-
+    
     public Tarea() {
     }
 
@@ -76,14 +75,14 @@ public class Tarea implements Serializable {
         this.estado = estado;
     }
 
-	public Tarea(String titulo, String descripcion, Integer estado, Date fechaLim, Usuario usuario, List<Comentario> comentario) {
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.estado = estado;
-		this.fechaLim = fechaLim;
-		this.usuario = usuario;
-		this.comentario = comentario;
-	}
+    public Tarea(String titulo, String descripcion, Integer estado, Date fechaLim, Usuario usuario, List<Comentario> comentario) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.fechaLim = fechaLim;
+        this.usuario = usuario;
+        this.comentario = comentario;
+    }
 
     public Long getId() {
         return id;
@@ -132,7 +131,6 @@ public class Tarea implements Serializable {
 //    public void setTablero(Tablero tablero) {
 //        this.tablero = tablero;
 //    }
-
     public Integer getEstado() {
         return estado;
     }
@@ -142,10 +140,10 @@ public class Tarea implements Serializable {
     }
 
     public List<Comentario> getComentario() {
-	return comentario;
+        return comentario;
     }
 
     public void setComentario(List<Comentario> comentario) {
-	this.comentario = comentario;
+        this.comentario = comentario;
     }
 }

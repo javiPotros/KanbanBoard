@@ -1,10 +1,10 @@
 package gui;
 
 import entidades.Usuario;
+import excepciones.DAOException;
 import interfaces.INegocios;
-import java.util.ArrayList;
+import java.awt.HeadlessException;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,18 +17,7 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         this.setTitle("Administrar Usuario");
         this.negocios = negocios;
         this.llenarTabla();
-        this.llenarCmbBoxRoles();
         setVisible(true);
-    }
-
-    private void llenarCmbBoxRoles() {
-        List<String> listaRoles = new ArrayList<>();
-        listaRoles.add("-Seleccionar-");
-        listaRoles.add("admin");
-        listaRoles.add("manager");
-        listaRoles.add("developer");
-        listaRoles.add("tester");
-        this.cbRoles.setModel(new DefaultComboBoxModel(listaRoles.toArray()));
     }
 
     private void guardar() {
@@ -44,30 +33,27 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
             String nombre = this.txtNombre.getText();
             String correo = this.txtCorreo.getText();
             String contrasenha = this.txtContrasenha.getText();
-            String rol = this.cbRoles.getSelectedItem().toString();
-            Usuario seAgregoUsuario = this.negocios.agregarUsuario(new Usuario(nombre, rol, correo, contrasenha));
-            JOptionPane.showMessageDialog(this, "Se agregó el nuevo usuario", "Información", JOptionPane.INFORMATION_MESSAGE);
+            String rol = this.txtRol.getText();
+            this.negocios.agregarUsuario(new Usuario(nombre, rol, correo, contrasenha));
+            JOptionPane.showMessageDialog(this, "Se agregó el nuevo socio", "Información", JOptionPane.INFORMATION_MESSAGE);
             this.limpiarFormulario();
             this.llenarTabla();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);;
+        } catch (DAOException | HeadlessException | IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, "No fue posible agregar el socio", "Información", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void actualizar() {
-        try {
-            Long idUsuario = Long.parseLong(this.txtID.getText());
-            String nombre = this.txtNombre.getText();
-            String correo = this.txtCorreo.getText();
-            String contrasenha = this.txtContrasenha.getText();
-            String rol = this.cbRoles.getSelectedItem().toString();
-            this.negocios.actualizarUsuario(new Usuario(idUsuario, nombre, rol, correo, contrasenha));
-            JOptionPane.showMessageDialog(this, "Se actualizó el usuario", "Información", JOptionPane.INFORMATION_MESSAGE);
-            this.limpiarFormulario();
-            this.llenarTabla();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);;
-        }
+        Long idUsuario = Long.valueOf(this.txtID.getText());
+        String nombre = this.txtNombre.getText();
+        String correo = this.txtCorreo.getText();
+        String contrasenha = this.txtContrasenha.getText();
+        String rol = this.txtRol.getText();
+        this.negocios.actualizarUsuario(new Usuario(idUsuario, nombre, rol, correo, contrasenha));
+        JOptionPane.showMessageDialog(this, "Se actualizó el usuario", "Información", JOptionPane.INFORMATION_MESSAGE);
+        this.limpiarFormulario();
+        this.llenarTabla();
+
     }
 
     private void editar() {
@@ -94,7 +80,7 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
             }
 
             this.negocios.eliminarUsuario(idUsuarioSeleccionado);
-            //JOptionPane.showMessageDialog(this, "Se eliminó el usuario correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se eliminó el usuario correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
             this.llenarTabla();
         }
     }
@@ -132,7 +118,7 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         this.txtNombre.setText(usuario.getNombre());
         this.txtCorreo.setText(usuario.getCorreo());
         this.txtContrasenha.setText(usuario.getContrasenha());
-        this.cbRoles.setSelectedItem(usuario.getRol());
+        this.txtRol.setText(usuario.getRol());
     }
 
     private void limpiarFormulario() {
@@ -140,7 +126,7 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         this.txtNombre.setText("");
         this.txtCorreo.setText("");
         this.txtContrasenha.setText("");
-        this.cbRoles.setSelectedIndex(0);
+        this.txtRol.setText("");
     }
 
     /**
@@ -167,13 +153,12 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         lblContrasenha = new javax.swing.JLabel();
         txtContrasenha = new javax.swing.JTextField();
         lblRol = new javax.swing.JLabel();
-        cbRoles = new javax.swing.JComboBox<>();
+        txtRol = new javax.swing.JTextField();
+        btnRegresar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnEditar.setText("Editar");
-        btnEditar.setFocusable(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -183,7 +168,6 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         lblSocioID.setText("Id Usuario");
 
         btnEliminar.setText("Eliminar");
-        btnEliminar.setFocusable(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -195,7 +179,6 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         lblCorreo.setText("Correo");
 
         txtID.setEditable(false);
-        txtID.setFocusable(false);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +188,6 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
         });
 
         btnLimpiar.setText("Limpiar");
-        btnLimpiar.setFocusable(false);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -229,7 +211,12 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
 
         lblRol.setText("Rol");
 
-        cbRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,19 +239,20 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
                             .addComponent(lblContrasenha)
                             .addComponent(lblRol))
                         .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtContrasenha, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtContrasenha, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnGuardar)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnLimpiar))
-                            .addComponent(cbRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnLimpiar)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -291,19 +279,25 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCorreo)
                             .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblContrasenha)
-                            .addComponent(txtContrasenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblRol)
-                            .addComponent(cbRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnLimpiar))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblContrasenha)
+                                    .addComponent(txtContrasenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblRol)
+                                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnGuardar)
+                                    .addComponent(btnLimpiar))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnRegresar)))))
                 .addContainerGap())
         );
 
@@ -311,20 +305,25 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        this.editar();
+        editar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        this.eliminar();
+        eliminar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        this.guardar();
+        guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        this.limpiarFormulario();
+        limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -332,7 +331,7 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JComboBox<String> cbRoles;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblContrasenha;
     private javax.swing.JLabel lblCorreo;
@@ -344,5 +343,6 @@ public class AdministrarUsuarioDialog extends javax.swing.JFrame {
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtRol;
     // End of variables declaration//GEN-END:variables
 }

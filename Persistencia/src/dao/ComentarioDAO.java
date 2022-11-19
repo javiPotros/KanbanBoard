@@ -1,49 +1,44 @@
 package dao;
 
 import entidades.Comentario;
+import excepciones.DAOException;
 import interfaces.baseDAO;
-import java.awt.HeadlessException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-public class ComentarioDAO extends baseDAO<Comentario>{
+public class ComentarioDAO extends baseDAO<Comentario> {
 
-	
-	public void agregar2Comentario (Comentario entidad) {
-		try {
-			EntityManager entityManager = this.getEntityManager();
-			entityManager.getTransaction().begin();
-			entityManager.persist(entidad);
-			entityManager.getTransaction().commit();
-		} catch (HeadlessException | PersistenceException e) {
-			System.err.println(e.getMessage());
-		}
-	}
+    @Override
+    public void agregar(Comentario comentario) throws DAOException {
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.persist(comentario);
+            entityManager.getTransaction().commit();
+        } catch (PersistenceException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-	@Override
-	public Comentario actualizar(Comentario entidad) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public void actualizar(Comentario entidad) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-	@Override
-	public void eliminar(long idEntidad) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public void eliminar(long idEntidad) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-	@Override
-	public Comentario consultar(long idEntidad) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public Comentario consultar(long idEntidad) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-	@Override
-	public List<Comentario> consultarTodos() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public Comentario agregar(Comentario entidad) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public List<Comentario> consultarTodos() throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

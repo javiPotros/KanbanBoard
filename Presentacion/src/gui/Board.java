@@ -8,9 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -55,7 +54,7 @@ public class Board extends javax.swing.JFrame {
         JTable target = (JTable) me.getSource();
         int row = target.getSelectedRow();
         Tarea tarea = listaPorHacer.get(row);
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea,usuario);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea);
         llenarTablaPorHacer();
     }
 
@@ -110,6 +109,36 @@ public class Board extends javax.swing.JFrame {
         llenarTablaPorHacer();
     }
 
+    public void eliminarEnProgreso() {
+        int row = tablaEnProgreso.getSelectedRow();
+        Tarea tarea = listaEnProgreso.get(row);
+        int tareaEliminar = 0;
+        for (int i = 0; i < listaEnProgreso.size(); i++) {
+            Tarea tareaLista = listaEnProgreso.get(i);
+            if (Objects.equals(tareaLista.getId(), tarea.getId())) {
+                negocios.eliminarTarea(tarea.getId());
+                tareaEliminar = i;
+            }
+        }
+        listaEnProgreso.remove(tareaEliminar);
+        llenarTablaEnProgreso();
+    }
+
+    public void eliminarRealizado() {
+        int row = tablaRealizado.getSelectedRow();
+        Tarea tarea = listaRealizado.get(row);
+        int tareaEliminar = 0;
+        for (int i = 0; i < listaRealizado.size(); i++) {
+            Tarea tareaLista = listaRealizado.get(i);
+            if (Objects.equals(tareaLista.getId(), tarea.getId())) {
+                negocios.eliminarTarea(tarea.getId());
+                tareaEliminar = i;
+            }
+        }
+        listaRealizado.remove(tareaEliminar);
+        llenarTablaRealizado();
+    }
+
     private void agregarListenerVerTarea() {
         tablaPorHacer.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -122,77 +151,64 @@ public class Board extends javax.swing.JFrame {
 
     private void cambiarPorHacerToProgreso() throws Exception {
         int row = tablaPorHacer.getSelectedRow();
-        Tarea tarea = listaPorHacer.get(row);
-        tarea.setEstado(1);
-        negocios.actualizarTarea(tarea);
-        this.listaPorHacer = negocios.consultarTareasPorHacer();
-        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
-        llenarTablaPorHacer();
-        llenarTablaEnProgreso();
+        if (row != -1) {
+            Tarea tarea = listaPorHacer.get(row);
+            tarea.setEstado(1);
+            negocios.actualizarTarea(tarea);
+            this.listaPorHacer = negocios.consultarTareasPorHacer();
+            this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+            llenarTablaPorHacer();
+            llenarTablaEnProgreso();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una tarea en estado de 'Por hacer'", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void cambiarEnProgresoToPorHacer() throws Exception {
         int row = tablaEnProgreso.getSelectedRow();
-        Tarea tarea = listaEnProgreso.get(row);
-        tarea.setEstado(0);
-        negocios.actualizarTarea(tarea);
-        this.listaPorHacer = negocios.consultarTareasPorHacer();
-        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
-        llenarTablaPorHacer();
-        llenarTablaEnProgreso();
+        if (row != -1) {
+            Tarea tarea = listaEnProgreso.get(row);
+            tarea.setEstado(0);
+            negocios.actualizarTarea(tarea);
+            this.listaPorHacer = negocios.consultarTareasPorHacer();
+            this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+            llenarTablaPorHacer();
+            llenarTablaEnProgreso();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una tarea en estado de 'En progreso'", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void cambiarEnProgresoToRealizado() throws Exception {
         int row = tablaEnProgreso.getSelectedRow();
-        Tarea tarea = listaEnProgreso.get(row);
-        tarea.setEstado(2);
-        negocios.actualizarTarea(tarea);
-        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
-        this.listaRealizado = negocios.consultarTareasRealizado();
-        llenarTablaEnProgreso();
-        llenarTablaRealizado();
-    }
-    
-        private void cambiarRealizadoToEnProgreso() throws Exception {
-        int row = tablaRealizado.getSelectedRow();
-        Tarea tarea = listaRealizado.get(row);
-        tarea.setEstado(1);
-        negocios.actualizarTarea(tarea);
-        this.listaEnProgreso = negocios.consultarTareasEnProgreso();
-        this.listaRealizado = negocios.consultarTareasRealizado();
-        llenarTablaEnProgreso();
-        llenarTablaRealizado();
+        if (row != -1) {
+            Tarea tarea = listaEnProgreso.get(row);
+            tarea.setEstado(2);
+            negocios.actualizarTarea(tarea);
+            this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+            this.listaRealizado = negocios.consultarTareasRealizado();
+            llenarTablaEnProgreso();
+            llenarTablaRealizado();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una tarea en estado de 'En progreso'", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
-//    public void eliminarEnProgreso() {
-//        int row = tablaEnProgreso.getSelectedRow();
-//        String tarea = tablaEnProgreso.getModel().getValueAt(row, 0).toString();
-//        String usuario = tablaEnProgreso.getModel().getValueAt(row, 1).toString();
-//        int tareaEliminar = 0;
-//        for (int i = 0; i < listaEnProgreso.size(); i++) {
-//            Tarea tareaLista = listaEnProgreso.get(i);
-//            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
-//                tareaEliminar = i;
-//            }
-//        }
-//        listaEnProgreso.remove(tareaEliminar);
-//        llenarTablaEnProgreso();
-//    }
-//    
-//    public void eliminarRealizado() {
-//        int row = tablaRealizado.getSelectedRow();
-//        String tarea = tablaRealizado.getModel().getValueAt(row, 0).toString();
-//        String usuario = tablaRealizado.getModel().getValueAt(row, 1).toString();
-//        int tareaEliminar = 0;
-//        for (int i = 0; i < listaRealizado.size(); i++) {
-//            Tarea tareaLista = listaRealizado.get(i);
-//            if (tareaLista.getNombre().equalsIgnoreCase(tarea) && tareaLista.getUsuario().equalsIgnoreCase(usuario)) {
-//                tareaEliminar = i;
-//            }
-//        }
-//        listaRealizado.remove(tareaEliminar);
-//        llenarTablaRealizado();
-//    }
+    private void cambiarRealizadoToEnProgreso() throws Exception {
+        int row = tablaRealizado.getSelectedRow();
+        if (row != -1) {
+            Tarea tarea = listaRealizado.get(row);
+            tarea.setEstado(1);
+            negocios.actualizarTarea(tarea);
+            this.listaEnProgreso = negocios.consultarTareasEnProgreso();
+            this.listaRealizado = negocios.consultarTareasRealizado();
+            llenarTablaEnProgreso();
+            llenarTablaRealizado();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una tarea en estado de 'Realizado'", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -571,20 +587,20 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null,null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null);
         this.listaPorHacer = negocios.consultarTareasPorHacer();
         llenarTablaPorHacer();
         this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
     private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null,null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null);
         llenarTablaEnProgreso();
         this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
 
     private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null,null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null);
         llenarTablaRealizado();
     }//GEN-LAST:event_btnCrearRealizadoActionPerformed
 
@@ -593,11 +609,11 @@ public class Board extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarPorHacerActionPerformed
 
     private void btnEliminarEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEnProgresoActionPerformed
-//        eliminarEnProgreso();
+        eliminarEnProgreso();
     }//GEN-LAST:event_btnEliminarEnProgresoActionPerformed
 
     private void btnEliminarRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRealizadoActionPerformed
-//        eliminarRealizado();
+        eliminarRealizado();
     }//GEN-LAST:event_btnEliminarRealizadoActionPerformed
 
     private void administrarUsuariosItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administrarUsuariosItemActionPerformed
