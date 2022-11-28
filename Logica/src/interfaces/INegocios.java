@@ -36,4 +36,8 @@ public interface INegocios {
     public List<Tarea> consultarTareasRealizado();
 
     public void agregarComentario(Comentario comentario);
+    
+    public void agregarTablero(Tablero tablero);
+    
+    public List<Tablero> consultarTableros();
 }

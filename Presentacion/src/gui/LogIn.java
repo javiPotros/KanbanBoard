@@ -45,7 +45,7 @@ public class LogIn extends javax.swing.JDialog {
         }
         return true;
     }
-    
+
     private boolean validaPassword(String password) {
         if (password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Introduzca una contraseña", "Error", JOptionPane.WARNING_MESSAGE);
@@ -145,19 +145,19 @@ public class LogIn extends javax.swing.JDialog {
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
         if (validaCorreo(this.txtCorreo.getText()) && validaPassword(this.txtPassword.getText())) {
             Usuario usuario;
-			try {
-				usuario = negocios.consultarPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
-				if (usuario != null) {
-					Board board = new Board(negocios, usuario);
-					board.setVisible(true);
-					this.dispose();
-				} else {
-					JOptionPane.showMessageDialog(rootPane, "Usuario y/o Clave incorrecta");
-				}
-			} catch (Exception ex) {
-				Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
-			}
-            
+            try {
+                usuario = negocios.consultarPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
+                if (usuario != null) {
+                    PantallaSeleccion seleccion = new PantallaSeleccion(negocios, usuario);
+                    seleccion.setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuario y/o Clave incorrecta");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 

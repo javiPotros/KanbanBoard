@@ -1,8 +1,10 @@
 
 import dao.TareaDAO;
 import dao.UsuarioDAO;
+import entidades.Tablero;
 import entidades.Tarea;
 import entidades.Usuario;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class pruebas {
@@ -10,10 +12,10 @@ public class pruebas {
     public static void main(String[] args) {
 		UsuarioDAO uDao = new UsuarioDAO();
 //		TableroDAO taDao = new TableroDAO();
-//		TareaDAO tDao = new TareaDAO();
+                TareaDAO tDao = new TareaDAO();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		Usuario user = new Usuario("Rodolfo", "lider", "rodolfo@gmail.com", "1234");
-//		uDao.agregar(user);
+//////		Usuario user = new Usuario("Rodolfo", "lider", "rodolfo@gmail.com", "1234");
+//////		uDao.agregar(user);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		Usuario user = uDao.consultar(1);
 //		Usuario userNew = new Usuario();
@@ -30,26 +32,26 @@ public class pruebas {
 //		Tarea tarea = new Tarea("Desarrollo", "Todo relacionado a arqui", fecha, user, tab);
 //		tDao.agregar(tarea);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		Tarea tarea = tDao.consultar(4);
-//		Usuario user = uDao.consultar(2);
+		//Tarea tarea = tDao.consultar(4);
+		//Usuario user = uDao.consultar(2);
 //		
 //		Tarea tareaNew = new Tarea();
-//		tareaNew.setId(tarea.getId());
+//		//tareaNew.setId();
 //		tareaNew.setTitulo("Desarollo");
-//		tareaNew.setFechaLim(tarea.getFechaLim());
+//		tareaNew.setFechaLim(new Date());
 //		tareaNew.setDescripcion("Todo lo relacionado con el BACKEND");
 //		tareaNew.setUsuario(user);
 //		
-//		tDao.actualizar(tareaNew);
+//		tDao.agregar(tarea);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		Usuario user = uDao.consultar(1);
-		System.out.println("ID: "+user.getId()+"\n"+
-					"Nombre: "+ user.getNombre()+"\n");
-		for (Tarea tarea : user.getTareas()) {
-			System.out.println("ID: "+tarea.getId()+"\n"+
-						"Titulo: "+tarea.getTitulo()+"\n"+
-						"Descripcion: "+tarea.getDescripcion());
-		}
+//		Usuario user = uDao.consultar(1);
+//		System.out.println("ID: "+user.getId()+"\n"+
+//					"Nombre: "+ user.getNombre()+"\n");
+//		for (Tarea tarea : user.getTareas()) {
+//			System.out.println("ID: "+tarea.getId()+"\n"+
+//						"Titulo: "+tarea.getTitulo()+"\n"+
+//						"Descripcion: "+tarea.getDescripcion());
+//		}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		Tablero tablero = taDao.consultar(2);
 //		System.out.println("ID: "+tablero.getId()+"\n"+

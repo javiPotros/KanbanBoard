@@ -41,6 +41,10 @@ public class Tarea implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_tablero", nullable = false)
+    private Tablero tablero;
 
     @OneToMany(mappedBy = "tarea")
     private List<Comentario> comentario;
@@ -147,5 +151,13 @@ public class Tarea implements Serializable {
 
     public void setComentario(List<Comentario> comentario) {
 	this.comentario = comentario;
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
     }
 }

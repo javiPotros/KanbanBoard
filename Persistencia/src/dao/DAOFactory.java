@@ -16,4 +16,8 @@ public class DAOFactory {
     public static ComentarioDAO comentariosDAO(){
 	return new ComentarioDAO();
     }
+    
+    public static TableroDAO crearTableroDAO() {
+        return new TableroDAO();
+    }
 }

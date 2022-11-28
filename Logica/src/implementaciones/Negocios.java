@@ -1,23 +1,26 @@
 package implementaciones;
 
 import entidades.Comentario;
+import entidades.Tablero;
 import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Negocios implements INegocios {
 
     CtrlUsuarios ctrlUsuarios;
     CtrlTareas ctrlTareas;
     CtrlComentario ctrlComentario;
-    //CtrlTableros ctrlTableros;
+    CtrlTableros ctrlTableros;
 
     public Negocios() {
         ctrlUsuarios = new CtrlUsuarios();
         ctrlTareas = new CtrlTareas();
         ctrlComentario = new CtrlComentario();
-//        ctrlTableros = new CtrlTableros();
+        ctrlTableros = new CtrlTableros();
     }
 
     @Override
@@ -97,6 +100,24 @@ public class Negocios implements INegocios {
 
     @Override
     public void agregarComentario(Comentario comentario) {
-        ctrlComentario.agregar(comentario);
+        try {
+            ctrlComentario.agregar(comentario);
+        } catch (Exception ex) {
+            Logger.getLogger(Negocios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void agregarTablero(Tablero tablero) {
+        try {
+            ctrlTableros.agregar(tablero);
+        } catch (Exception ex) {
+            Logger.getLogger(Negocios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public List<Tablero> consultarTableros() {
+        return ctrlTableros.consultarTodos();
     }
 }
