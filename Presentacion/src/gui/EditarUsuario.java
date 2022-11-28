@@ -17,6 +17,7 @@ public class EditarUsuario extends javax.swing.JFrame {
 		llenarCmbBoxUsuarios();
 	}
 	
+        @SuppressWarnings("unchecked")
 	private void llenarCmbBoxUsuarios() {
 		if (usuarios != null) {
 			this.cbUsuario.setModel(new DefaultComboBoxModel(usuarios.toArray()));

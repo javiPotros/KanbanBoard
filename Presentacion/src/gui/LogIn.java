@@ -143,10 +143,10 @@ public class LogIn extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-        if (validaCorreo(this.txtCorreo.getText()) && validaPassword(this.txtPassword.getText())) {
+        if (validaCorreo(this.txtCorreo.getText()) && validaPassword(String.valueOf(txtPassword.getPassword()))) {
             Usuario usuario;
 			try {
-				usuario = negocios.consultarUsuarioPorCorreoYContrasenha(txtCorreo.getText(), txtPassword.getText());
+				usuario = negocios.consultarUsuarioPorCorreoYContrasenha(txtCorreo.getText(), String.valueOf(txtPassword.getParent()));
 				if (usuario != null) {
 					Board board = new Board(negocios, usuario);
 					board.setVisible(true);

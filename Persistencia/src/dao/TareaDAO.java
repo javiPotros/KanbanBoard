@@ -71,6 +71,7 @@ public class TareaDAO extends baseDAO<Tarea> {
         try {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t", Tarea.class);
+            @SuppressWarnings("unchecked")
             List<Tarea> listaTareas = query.getResultList();
             return listaTareas;
         } catch (PersistenceException ex) {
@@ -83,6 +84,7 @@ public class TareaDAO extends baseDAO<Tarea> {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 0",
                     Tarea.class);
+            @SuppressWarnings("unchecked")
             List<Tarea> listaTareas = query.getResultList();
             return listaTareas;
         } catch (PersistenceException ex) {
@@ -95,6 +97,7 @@ public class TareaDAO extends baseDAO<Tarea> {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 1",
                     Tarea.class);
+            @SuppressWarnings("unchecked")
             List<Tarea> listaTareas = query.getResultList();
             return listaTareas;
         } catch (PersistenceException ex) {
@@ -107,6 +110,7 @@ public class TareaDAO extends baseDAO<Tarea> {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query
                     = entityManager.createQuery("SELECT t FROM Tarea t WHERE t.estado = 2", Tarea.class);
+            @SuppressWarnings("unchecked")
             List<Tarea> listaTareas = query.getResultList();
             return listaTareas;
         } catch (PersistenceException ex) {

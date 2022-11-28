@@ -3,6 +3,7 @@ package entidades;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,12 +31,12 @@ public class Tarea implements Serializable {
     @Column(name = "descripcion", nullable = true, length = 300)
     private String descripcion;
 
-    @Column(name = "estado", nullable = false)
-    private Integer estado;
-
     @Column(name = "fechalim", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaLim;
+
+    @Column(name = "estado", nullable = false)
+    private Integer estado;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -47,8 +48,17 @@ public class Tarea implements Serializable {
 //    @ManyToOne(cascade = CascadeType.REFRESH)
 //    @JoinColumn(name = "id_tablero", nullable = false)
 //    private Tablero tablero;
-    
     public Tarea() {
+    }
+
+    public Tarea(Long id) {
+        this.id = id;
+    }
+
+    public Tarea(String titulo, String descripcion, Date fechaLim) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaLim = fechaLim;
     }
 
     public Tarea(String titulo, String descripcion, Date fechaLim, Integer estado) {
@@ -146,4 +156,27 @@ public class Tarea implements Serializable {
     public void setComentario(List<Comentario> comentario) {
         this.comentario = comentario;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tarea other = (Tarea) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
 }

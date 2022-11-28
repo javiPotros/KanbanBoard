@@ -107,6 +107,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         this.cmbBoxUsuarios.setSelectedIndex(0);
     }
 
+    @SuppressWarnings("unchecked")
     private void llenarCmbBoxUsuarios() {
         if (usuarios != null) {
             cmbBoxUsuarios.setModel(new DefaultComboBoxModel(usuarios.toArray()));

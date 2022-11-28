@@ -2,9 +2,6 @@ package dao;
 
 public class DAOFactory {
 
-    public DAOFactory() {
-    }
-
     public static UsuarioDAO crearUsuarioDAO() {
         return new UsuarioDAO();
     }

@@ -53,7 +53,7 @@ public class CtrlTareas {
         return tareaDAO.consultarRealizado();
     }
 
-    private void validarCampos(Tarea tarea) throws DAOException {
+    public void validarCampos(Tarea tarea) throws DAOException {
         validarTitulo(tarea.getTitulo());
         validarDescripcion(tarea.getDescripcion());
         validarFecha(tarea.getFechaLim());
@@ -68,9 +68,6 @@ public class CtrlTareas {
     }
 
     private void validarDescripcion(String descripcion) throws IllegalArgumentException {
-//        if (descripcion.equalsIgnoreCase("")) {
-//            throw new IllegalArgumentException("Introduzca un título");
-//        } 
         if (descripcion.length() > 300) {
             throw new IllegalArgumentException("La descripción debe de tener máximo 100 caracteres");
         }

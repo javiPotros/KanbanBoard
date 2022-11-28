@@ -96,6 +96,7 @@ public class UsuarioDAO extends baseDAO<Usuario> {
         try {
             EntityManager entityManager = this.getEntityManager();
             TypedQuery query = entityManager.createQuery("SELECT u FROM Usuario u", Usuario.class);
+            @SuppressWarnings("unchecked")
             List<Usuario> listaUsuario = query.getResultList();
             for (Usuario usuario : listaUsuario) {
                 System.out.println(usuario);

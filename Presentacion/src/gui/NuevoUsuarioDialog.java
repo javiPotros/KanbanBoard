@@ -142,7 +142,7 @@ public class NuevoUsuarioDialog extends javax.swing.JDialog {
         usuario.setNombre(txtNombre.getText());
         usuario.setRol((String) cmbBoxRoles.getSelectedItem());
         usuario.setCorreo(txtCorreo.getText());
-        usuario.setContrasenha(txtContrasenha.getText());
+        usuario.setContrasenha(String.valueOf(txtContrasenha.getPassword()));
         try {
             negocios.agregarUsuario(usuario);
             JOptionPane.showMessageDialog(null, "Se ha guardado el usuario correctamente",
