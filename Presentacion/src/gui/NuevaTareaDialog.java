@@ -1,5 +1,6 @@
 package gui;
 
+import entidades.Tablero;
 import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
@@ -17,8 +18,9 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
     Tarea tarea;
     private Integer tipo;
 	private Usuario usuario;
+    private Tablero tablero;
 
-    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios, Integer estado, Integer tipo, Tarea tarea, Usuario usuario) {
+    public NuevaTareaDialog(java.awt.Frame parent, boolean modal, INegocios negocios, Integer estado, Integer tipo, Tarea tarea, Usuario usuario, Tablero tablero) {
         super(parent, modal);
         initComponents();
         this.negocios = negocios;
@@ -27,6 +29,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
         this.tarea = tarea;
         this.tipo = tipo;
         this.usuario = usuario;
+        this.tablero = tablero;
         switch (tipo) {
             case 0:
                 configurarVer();
@@ -48,6 +51,7 @@ public class NuevaTareaDialog extends javax.swing.JDialog {
 	tarea.setFechaLim(Date.from(this.fechaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         tarea.setUsuario((Usuario) this.cmbBoxUsuarios.getSelectedItem());
         tarea.setEstado(this.estado);
+        tarea.setTablero(tablero);
         try {
             negocios.agregarTarea(tarea);
             JOptionPane.showMessageDialog(null, "Se ha guardado la tarea correctamente",

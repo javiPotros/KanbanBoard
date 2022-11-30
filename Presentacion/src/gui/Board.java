@@ -1,5 +1,6 @@
 package gui;
 
+import entidades.Tablero;
 import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
@@ -25,8 +26,9 @@ public class Board extends javax.swing.JFrame {
     private List<Tarea> listaRealizado;
     private INegocios negocios;
     private Usuario usuario;
+    private Tablero tablero;
 
-    public Board(INegocios negocios, Usuario usuario) {
+    public Board(INegocios negocios, Usuario usuario, Tablero tablero) {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
@@ -36,6 +38,7 @@ public class Board extends javax.swing.JFrame {
         this.listaRealizado = new ArrayList<>();
         this.negocios = negocios;
         this.usuario = usuario;
+        this.tablero = tablero;
         this.listaPorHacer = negocios.consultarTareasPorHacer();
         this.listaEnProgreso = negocios.consultarTareasEnProgreso();
         this.listaRealizado = negocios.consultarTareasRealizado();
@@ -55,7 +58,7 @@ public class Board extends javax.swing.JFrame {
         JTable target = (JTable) me.getSource();
         int row = target.getSelectedRow();
         Tarea tarea = listaPorHacer.get(row);
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea,usuario);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 0, tarea,usuario,tablero);
         llenarTablaPorHacer();
     }
 
@@ -571,20 +574,20 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearPorHacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPorHacerActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null,null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, POR_HACER, 1, null,null,tablero);
         this.listaPorHacer = negocios.consultarTareasPorHacer();
         llenarTablaPorHacer();
         this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearPorHacerActionPerformed
 
     private void btnCrearEnProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnProgresoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null,null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, EN_PROGRESO, 1, null,null,tablero);
         llenarTablaEnProgreso();
         this.listaPorHacer = negocios.consultarTareasPorHacer();
     }//GEN-LAST:event_btnCrearEnProgresoActionPerformed
 
     private void btnCrearRealizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRealizadoActionPerformed
-        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null,null);
+        NuevaTareaDialog tareaDlg = new NuevaTareaDialog(this, true, negocios, REALIZADO, 1, null,null,tablero);
         llenarTablaRealizado();
     }//GEN-LAST:event_btnCrearRealizadoActionPerformed
 

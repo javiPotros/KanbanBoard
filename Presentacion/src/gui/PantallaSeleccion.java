@@ -5,9 +5,13 @@
 package gui;
 
 import entidades.Tablero;
+import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,7 +28,7 @@ public class PantallaSeleccion extends javax.swing.JFrame {
 
         this.negocios = negocios;
         this.usuario = usuario;
-        
+
         llenarTabla();
     }
 
@@ -34,7 +38,7 @@ public class PantallaSeleccion extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         listaTableros.forEach(tablero -> {
             Object[] fila = new Object[1];
-            fila[0] = tablero.getNombre();
+            fila[0] = tablero;
             modeloTabla.addRow(fila);
         });
     }
@@ -65,7 +69,20 @@ public class PantallaSeleccion extends javax.swing.JFrame {
             new String [] {
                 "Tablero"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblTableros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTablerosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTableros);
 
         btnCrearTablero.setText("Crear Tablero");
@@ -101,9 +118,18 @@ public class PantallaSeleccion extends javax.swing.JFrame {
 
     private void btnCrearTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTableroActionPerformed
         NuevoTableroDialog tableroDlg = new NuevoTableroDialog(this, true, negocios);
-        
+
         llenarTabla();
     }//GEN-LAST:event_btnCrearTableroActionPerformed
+
+    private void tblTablerosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablerosMouseClicked
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTableros.getModel();
+        int row = tblTableros.getSelectedRow();
+        int colum = tblTableros.getSelectedColumn();
+        Tablero tablero = (Tablero) modeloTabla.getValueAt(row, colum);
+        Board board = new Board(negocios, usuario, tablero);
+        board.setVisible(true);
+    }//GEN-LAST:event_tblTablerosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCrearTablero;

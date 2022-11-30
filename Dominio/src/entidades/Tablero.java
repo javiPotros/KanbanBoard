@@ -80,4 +80,9 @@ public class Tablero implements Serializable {
     public void setTareas(List<Tarea> tareas) {
         this.tareas = tareas;
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }
