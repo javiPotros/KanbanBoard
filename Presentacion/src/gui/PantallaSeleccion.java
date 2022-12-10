@@ -5,12 +5,12 @@
 package gui;
 
 import entidades.Tablero;
-import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.INegocios;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +30,7 @@ public class PantallaSeleccion extends javax.swing.JFrame {
         this.usuario = usuario;
 
         llenarTabla();
+        agregarListenerVerTarea();
     }
 
     private void llenarTabla() {
@@ -55,6 +56,7 @@ public class PantallaSeleccion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTableros = new javax.swing.JTable();
         btnCrearTablero = new javax.swing.JToggleButton();
+        btnEliminarTablero = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Selecciona tablero");
@@ -78,11 +80,6 @@ public class PantallaSeleccion extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblTableros.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTablerosMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblTableros);
 
         btnCrearTablero.setText("Crear Tablero");
@@ -92,16 +89,27 @@ public class PantallaSeleccion extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarTablero.setText("Eliminar Tablero");
+        btnEliminarTablero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarTableroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnCrearTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnCrearTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnEliminarTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,7 +117,9 @@ public class PantallaSeleccion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnCrearTablero)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+                .addComponent(btnEliminarTablero)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -121,18 +131,61 @@ public class PantallaSeleccion extends javax.swing.JFrame {
 
         llenarTabla();
     }//GEN-LAST:event_btnCrearTableroActionPerformed
+    
+//    private void tblTablerosMouseClicked(java.awt.event.MouseEvent evt) {                                         
+//        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTableros.getModel();
+//        int row = tblTableros.getSelectedRow();
+//        int colum = tblTableros.getSelectedColumn();
+//        Tablero tablero = (Tablero) modeloTabla.getValueAt(row, colum);
+//        Board board = new Board(negocios, usuario, tablero);
+//        board.setVisible(true);
+//    }  
+    
+    private void agregarListenerVerTarea() {
+        tblTableros.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+                if (me.getClickCount() == 2) {     // to detect doble click events
+                    verTarea(me);
+                }
+            }
+        });
+    }
+    private void verTarea(MouseEvent me) {
+//        this.listaPorHacer = negocios.consultarTareasPorHacer();
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTableros.getModel();
+        JTable target = (JTable) me.getSource();
+        int row = target.getSelectedRow();
+        int colum = target.getSelectedColumn();
+        Tablero tablero =(Tablero) modeloTabla.getValueAt(row, colum);
+        Board board = new Board(negocios, usuario, tablero);
+        board.setVisible(true);
+        this.llenarTabla();
+    }
 
-    private void tblTablerosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablerosMouseClicked
+    private void btnEliminarTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTableroActionPerformed
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTableros.getModel();
         int row = tblTableros.getSelectedRow();
         int colum = tblTableros.getSelectedColumn();
-        Tablero tablero = (Tablero) modeloTabla.getValueAt(row, colum);
-        Board board = new Board(negocios, usuario, tablero);
-        board.setVisible(true);
-    }//GEN-LAST:event_tblTablerosMouseClicked
+        Tablero tab = (Tablero) modeloTabla.getValueAt(row, colum);
+        Long idTableroSeleccionado = tab.getId();
+        if (idTableroSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un tablero", "Información", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int opcionSeleccionada = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el tablero?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            if (opcionSeleccionada == JOptionPane.NO_OPTION) {
+                return;
+            }
+            this.negocios.eliminarTablero(idTableroSeleccionado);
+            //JOptionPane.showMessageDialog(this, "Se eliminó el usuario correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+            this.llenarTabla();
+        }
+
+    }//GEN-LAST:event_btnEliminarTableroActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCrearTablero;
+    private javax.swing.JToggleButton btnEliminarTablero;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblTableros;
     // End of variables declaration//GEN-END:variables

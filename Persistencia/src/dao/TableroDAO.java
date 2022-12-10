@@ -5,6 +5,7 @@
 package dao;
 
 import entidades.Tablero;
+import entidades.Tarea;
 import entidades.Usuario;
 import interfaces.baseDAO;
 import java.awt.HeadlessException;
@@ -60,7 +61,20 @@ public class TableroDAO extends baseDAO<Tablero> {
 
     @Override
     public void eliminar(long idTablero) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println(idTablero);
+        Long id = idTablero;
+        try {
+            EntityManager entityManager = this.getEntityManager();
+            entityManager.getTransaction().begin();
+            Tablero tablero = entityManager.find(Tablero.class, id);
+            if (tablero != null) {
+                entityManager.remove(tablero);
+            }
+            entityManager.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Se ha elimino correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (HeadlessException | PersistenceException e) {
+            JOptionPane.showMessageDialog(null, "Error: Este tablero no se pudo eliminar", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     @Override

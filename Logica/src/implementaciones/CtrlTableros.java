@@ -24,4 +24,8 @@ public class CtrlTableros {
     public List<Tablero> consultarTodos() {
         return tableroDAO.consultarTodos();
     }
+    
+    public void eliminar(long id){
+        tableroDAO.eliminar(id);
+    }
 }

@@ -125,4 +125,10 @@ public class Negocios implements INegocios {
     public void cambiarNombre(Tablero tablero) {
         ctrlTableros.cambiarNombre(tablero);
     }
+
+    @Override
+    public void eliminarTablero(Long id) {
+        ctrlTableros.eliminar(id);
+    }
+
 }

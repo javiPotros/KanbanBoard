@@ -42,4 +42,6 @@ public interface INegocios {
     public List<Tablero> consultarTableros();
     
     public void cambiarNombre(Tablero tablero);
+    
+    public void eliminarTablero(Long id);
 }
