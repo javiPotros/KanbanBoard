@@ -40,4 +40,6 @@ public interface INegocios {
     public void agregarTablero(Tablero tablero);
     
     public List<Tablero> consultarTableros();
+    
+    public void cambiarNombre(Tablero tablero);
 }

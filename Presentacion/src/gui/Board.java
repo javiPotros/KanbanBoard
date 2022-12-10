@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,7 +33,6 @@ public class Board extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-
         this.listaPorHacer = new ArrayList<>();
         this.listaEnProgreso = new ArrayList<>();
         this.listaRealizado = new ArrayList<>();
@@ -42,6 +42,7 @@ public class Board extends javax.swing.JFrame {
         this.listaPorHacer = negocios.consultarTareasPorHacer();
         this.listaEnProgreso = negocios.consultarTareasEnProgreso();
         this.listaRealizado = negocios.consultarTareasRealizado();
+        this.setTitle(this.tablero.getNombre());
 
         if (!"admin".equals(usuario.getRol())) {
             menu.setVisible(false);
@@ -222,6 +223,7 @@ public class Board extends javax.swing.JFrame {
         tablaRealizado = new javax.swing.JTable();
         btnRealizadoToProgreso = new javax.swing.JButton();
         btnProgresoToRealizado = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         menu = new javax.swing.JMenuBar();
         menuAdministrar = new javax.swing.JMenu();
         administrarUsuariosItem = new javax.swing.JMenuItem();
@@ -312,7 +314,7 @@ public class Board extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(160, 160, 160)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 137, Short.MAX_VALUE)))
+                        .addGap(0, 143, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -510,6 +512,13 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
+        btnEditar.setText("Cambiar nombre");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         menuAdministrar.setText("Administrar");
 
         administrarUsuariosItem.setText("Usuarios");
@@ -529,7 +538,9 @@ public class Board extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(btnEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,13 +554,16 @@ public class Board extends javax.swing.JFrame {
                     .addComponent(btnProgresoToRealizado))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnEditar)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -639,12 +653,21 @@ public class Board extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRealizadoToProgresoActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String nombre = JOptionPane.showInputDialog("Nuevo nombre del tablero");
+        Tablero tablero = this.tablero;
+        tablero.setNombre(nombre);
+        negocios.cambiarNombre(tablero);
+        this.setTitle(nombre);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem administrarUsuariosItem;
     private javax.swing.JButton btnCrearEnProgreso;
     private javax.swing.JButton btnCrearPorHacer;
     private javax.swing.JButton btnCrearRealizado;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminarEnProgreso;
     private javax.swing.JButton btnEliminarPorHacer;
     private javax.swing.JButton btnEliminarRealizado;

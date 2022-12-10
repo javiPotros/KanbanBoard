@@ -5,12 +5,14 @@
 package dao;
 
 import entidades.Tablero;
+import entidades.Usuario;
 import interfaces.baseDAO;
 import java.awt.HeadlessException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +36,26 @@ public class TableroDAO extends baseDAO<Tablero> {
 
     @Override
     public Tablero actualizar(Tablero tablero) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            if (tablero.getId() == null || tablero == null) {
+                throw new IllegalArgumentException("El tablero no es valido");
+            }
+            EntityManager entityManager = this.getEntityManager();
+            entityManager.getTransaction().begin();
+            Tablero tableroViejo = entityManager.find(Tablero.class, tablero.getId());
+            if (tableroViejo == null) {
+                throw new Exception("El tablero no existe");
+            }
+            tableroViejo.setNombre(tablero.getNombre());
+            entityManager.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente", "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return tablero;
+        } catch (Exception e) {
+            //REVISAR
+            System.err.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override

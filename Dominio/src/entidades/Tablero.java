@@ -34,7 +34,8 @@ public class Tablero implements Serializable {
 
     @OneToMany(mappedBy = "tablero")
     private List<Tarea> tareas;
-
+    
+    
     public Tablero() {
     }
 

@@ -120,4 +120,9 @@ public class Negocios implements INegocios {
     public List<Tablero> consultarTableros() {
         return ctrlTableros.consultarTodos();
     }
+
+    @Override
+    public void cambiarNombre(Tablero tablero) {
+        ctrlTableros.cambiarNombre(tablero);
+    }
 }
